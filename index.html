@@ -2,529 +2,325 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Rankd — Qui est vraiment qui ?</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0a0a0f;
-    --surface: #13131a;
-    --surface2: #1c1c28;
-    --border: rgba(255,255,255,0.08);
-    --accent: #6c63ff;
-    --accent2: #ff6584;
-    --accent3: #43e97b;
-    --text: #f0f0ff;
-    --muted: rgba(240,240,255,0.45);
-    --radius: 16px;
-  }
+:root {
+  --bg: #08080e;
+  --surface: #0f0f1a;
+  --surface2: #17172a;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.14);
+  --accent: #7c6fff;
+  --accent2: #ff5f7e;
+  --accent3: #00e5a0;
+  --text: #eeeeff;
+  --muted: rgba(210,210,255,0.42);
+  --radius: 18px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; overflow-x: hidden; }
+body {
+  background: var(--bg); color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100dvh; display: flex; flex-direction: column; align-items: center;
+}
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background-image: linear-gradient(rgba(124,111,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(124,111,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px; pointer-events: none; z-index: 0;
+}
+.orb { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(90px); }
+.orb-1 { width: 400px; height: 400px; background: rgba(124,111,255,0.12); top: -150px; left: -150px; }
+.orb-2 { width: 300px; height: 300px; background: rgba(255,95,126,0.08); bottom: -100px; right: -100px; }
+.app { width: 100%; max-width: 430px; min-height: 100dvh; display: flex; flex-direction: column; position: relative; z-index: 1; padding: 0 22px 48px; }
+.screen { display: none; flex-direction: column; flex: 1; animation: fadeUp 0.28s ease; }
+.screen.active { display: flex; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+/* LOGO */
+.logo { font-family:'Syne',sans-serif; font-size:52px; font-weight:900; letter-spacing:-3px; background:linear-gradient(135deg,#fff 0%,var(--accent) 60%,var(--accent2) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; display:inline-block; margin-top:60px; margin-bottom:4px; }
+.logo-sm { font-family:'Syne',sans-serif; font-size:26px; font-weight:900; letter-spacing:-1px; background:linear-gradient(135deg,#fff,var(--accent)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; display:inline-block; }
+.tagline { color:var(--muted); font-size:15px; margin-bottom:32px; font-style:italic; }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    min-height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow-x: hidden;
-  }
+/* BUTTONS */
+.btn { width:100%; padding:17px; border-radius:var(--radius); font-family:'DM Sans',sans-serif; font-size:16px; font-weight:600; cursor:pointer; border:none; transition:transform 0.12s,box-shadow 0.12s; }
+.btn:active { transform:scale(0.975); }
+.btn:disabled { opacity:0.35; cursor:not-allowed; transform:none; }
+.btn-primary { background:linear-gradient(135deg,var(--accent),#9d8fff); color:#fff; box-shadow:0 4px 24px rgba(124,111,255,0.3); }
+.btn-secondary { background:var(--surface2); color:var(--text); border:1.5px solid var(--border2); }
+.btn-success { background:linear-gradient(135deg,var(--accent3),#00c87a); color:#08080e; font-weight:700; box-shadow:0 4px 20px rgba(0,229,160,0.2); }
+.btn-row { display:flex; gap:12px; }
+.btn-row .btn { flex:1; }
 
-  /* Background orbs */
-  body::before, body::after {
-    content: '';
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(80px);
-    pointer-events: none;
-    z-index: 0;
-  }
-  body::before {
-    width: 300px; height: 300px;
-    background: rgba(108,99,255,0.15);
-    top: -100px; left: -100px;
-  }
-  body::after {
-    width: 250px; height: 250px;
-    background: rgba(255,101,132,0.1);
-    bottom: -80px; right: -80px;
-  }
+/* INPUTS */
+.input-label { font-size:11px; color:var(--muted); margin-bottom:8px; display:block; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; }
+input[type="text"] { width:100%; background:var(--surface); border:1.5px solid var(--border2); border-radius:14px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:16px; padding:16px 18px; outline:none; transition:border-color 0.2s,box-shadow 0.2s; }
+input:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(124,111,255,0.15); }
+input::placeholder { color:var(--muted); }
 
-  .app {
-    width: 100%;
-    max-width: 430px;
-    min-height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    z-index: 1;
-    padding: 0 20px 40px;
-  }
+/* PHOTO */
+.photo-capture-wrap { display:flex; flex-direction:column; align-items:center; background:var(--surface); border:2px dashed var(--border2); border-radius:var(--radius); padding:24px 20px; margin-bottom:20px; cursor:pointer; transition:border-color 0.2s; }
+.photo-capture-wrap:active { border-color:var(--accent); }
+.photo-preview { width:80px; height:80px; border-radius:50%; object-fit:cover; border:3px solid var(--accent); box-shadow:0 0 20px rgba(124,111,255,0.3); display:none; margin-bottom:10px; }
+.photo-placeholder { font-size:40px; margin-bottom:8px; }
+.photo-hint { color:var(--muted); font-size:14px; text-align:center; }
 
-  /* ── SCREENS ── */
-  .screen { display: none; flex-direction: column; flex: 1; animation: fadeUp 0.35s ease; }
-  .screen.active { display: flex; }
+/* THEMES */
+.themes-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:24px; }
+.theme-card { background:var(--surface); border:2px solid var(--border2); border-radius:16px; padding:20px 16px; cursor:pointer; text-align:center; transition:border-color 0.2s,background 0.2s,transform 0.12s; display:flex; flex-direction:column; align-items:center; gap:8px; }
+.theme-card:active { transform:scale(0.96); }
+.theme-card.selected { border-color:var(--accent); background:rgba(124,111,255,0.1); }
+.theme-emoji { font-size:32px; }
+.theme-name { font-family:'Syne',sans-serif; font-size:15px; font-weight:700; }
+.theme-count { font-size:11px; color:var(--muted); }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+/* ROOM CODE */
+.room-code-display { background:linear-gradient(135deg,rgba(124,111,255,0.08),rgba(255,95,126,0.05)); border:1.5px solid rgba(124,111,255,0.25); border-radius:var(--radius); padding:24px; text-align:center; margin-bottom:24px; }
+.room-code-label { font-size:11px; color:var(--muted); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:8px; font-weight:600; }
+.room-code-value { font-family:'Syne',sans-serif; font-size:50px; font-weight:900; letter-spacing:10px; background:linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.room-code-hint { color:var(--muted); font-size:13px; margin-top:6px; }
 
-  /* ── LOGO / HEADER ── */
-  .logo {
-    font-family: 'Syne', sans-serif;
-    font-size: 42px;
-    font-weight: 800;
-    letter-spacing: -2px;
-    background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-top: 60px;
-    margin-bottom: 8px;
-  }
+/* PLAYERS */
+.players-grid { display:flex; flex-direction:column; gap:10px; margin-bottom:20px; }
+.player-chip { display:flex; align-items:center; gap:14px; background:var(--surface); border:1.5px solid var(--border); border-radius:14px; padding:12px 16px; animation:slideIn 0.25s ease; }
+@keyframes slideIn { from{opacity:0;transform:translateX(-10px);} to{opacity:1;transform:translateX(0);} }
+.player-name { font-weight:600; font-size:15px; flex:1; }
+.badge-host { background:rgba(124,111,255,0.15); color:var(--accent); padding:3px 9px; border-radius:20px; font-size:11px; font-weight:700; border:1px solid rgba(124,111,255,0.3); }
+.badge-voted { color:var(--accent3); font-size:13px; font-weight:700; }
+.badge-pending { color:var(--muted); font-size:13px; }
 
-  .tagline {
-    color: var(--muted);
-    font-size: 15px;
-    margin-bottom: 48px;
-  }
+/* QUESTION */
+.question-header { display:flex; align-items:center; justify-content:space-between; margin-top:24px; margin-bottom:16px; }
+.q-meta { display:flex; flex-direction:column; gap:3px; }
+.q-counter { font-size:12px; color:var(--muted); font-weight:600; letter-spacing:0.8px; text-transform:uppercase; }
+.q-theme-label { font-size:12px; color:var(--accent); font-weight:600; }
+.timer-circle { width:48px; height:48px; border-radius:50%; background:var(--surface2); border:2.5px solid var(--accent); display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-size:18px; font-weight:800; color:var(--accent); transition:border-color 0.3s,color 0.3s; }
+.timer-circle.urgent { border-color:var(--accent2); color:var(--accent2); animation:timerPulse 0.5s ease infinite alternate; }
+@keyframes timerPulse { from{transform:scale(1);} to{transform:scale(1.1);} }
+.progress-bar { height:3px; background:var(--border2); border-radius:4px; margin-bottom:20px; overflow:hidden; }
+.progress-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--accent2)); border-radius:4px; transition:width 0.5s ease; }
+.question-emoji { font-size:42px; text-align:center; margin-bottom:10px; display:block; animation:emojiPop 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes emojiPop { from{transform:scale(0.4);opacity:0;} to{transform:scale(1);opacity:1;} }
+.question-text { font-family:'Syne',sans-serif; font-size:22px; font-weight:800; line-height:1.25; margin-bottom:24px; letter-spacing:-0.3px; text-align:center; }
 
-  /* ── BUTTONS ── */
-  .btn {
-    width: 100%;
-    padding: 18px;
-    border-radius: var(--radius);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    transition: transform 0.15s, opacity 0.15s;
-    letter-spacing: 0.3px;
-  }
-  .btn:active { transform: scale(0.97); }
+/* RANK LIST */
+.rank-list { display:flex; flex-direction:column; gap:9px; margin-bottom:20px; }
+.rank-item { display:flex; align-items:center; gap:12px; background:var(--surface); border:1.5px solid var(--border2); border-radius:14px; padding:12px 14px; cursor:grab; transition:border-color 0.2s,transform 0.15s,box-shadow 0.2s; user-select:none; touch-action:none; }
+.rank-item.dragging { border-color:var(--accent); box-shadow:0 10px 32px rgba(124,111,255,0.25); transform:scale(1.03); z-index:10; position:relative; background:var(--surface2); }
+.rank-item.drag-over { border-color:var(--accent2); background:rgba(255,95,126,0.05); }
+.rank-number { width:28px; height:28px; border-radius:50%; background:var(--accent); display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-size:12px; font-weight:800; color:#fff; flex-shrink:0; }
+.rank-item:nth-child(1) .rank-number { background:linear-gradient(135deg,#FFD700,#FFA500); color:#000; }
+.rank-item:nth-child(2) .rank-number { background:linear-gradient(135deg,#e0e0e0,#aaa); color:#000; }
+.rank-item:nth-child(3) .rank-number { background:linear-gradient(135deg,#CD7F32,#a0522d); color:#fff; }
+.rank-name { font-weight:600; font-size:15px; flex:1; }
+.drag-handle { color:var(--muted); font-size:14px; }
 
-  .btn-primary {
-    background: var(--accent);
-    color: #fff;
-  }
-  .btn-secondary {
-    background: var(--surface2);
-    color: var(--text);
-    border: 1.5px solid var(--border);
-  }
-  .btn-danger {
-    background: var(--accent2);
-    color: #fff;
-  }
-  .btn-success {
-    background: var(--accent3);
-    color: #0a0a0f;
-  }
-  .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+/* WAITING */
+.waiting-wrap { display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; }
+.waiting-pulse { width:88px; height:88px; border-radius:50%; background:linear-gradient(135deg,rgba(124,111,255,0.15),rgba(255,95,126,0.1)); border:1.5px solid rgba(124,111,255,0.2); display:flex; align-items:center; justify-content:center; font-size:38px; margin-bottom:20px; animation:pulse 2.5s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(124,111,255,0.2);} 50%{transform:scale(1.06);box-shadow:0 0 0 18px rgba(124,111,255,0);} }
 
-  .btn-row { display: flex; gap: 12px; }
-  .btn-row .btn { flex: 1; }
+/* RESULTS */
+.result-row { display:flex; align-items:center; gap:12px; padding:14px 16px; border-radius:14px; background:var(--surface); border:1.5px solid var(--border); animation:revealRow 0.4s ease forwards; opacity:0; margin-bottom:10px; }
+.result-row:nth-child(1){animation-delay:0.08s;border-color:rgba(255,215,0,0.25);background:rgba(255,215,0,0.04);}
+.result-row:nth-child(2){animation-delay:0.2s;}
+.result-row:nth-child(3){animation-delay:0.32s;}
+.result-row:nth-child(n+4){animation-delay:0.44s;}
+@keyframes revealRow { from{opacity:0;transform:translateX(-16px);} to{opacity:1;transform:translateX(0);} }
+.result-rank { font-family:'Syne',sans-serif; font-size:22px; font-weight:900; width:30px; text-align:center; }
+.result-info { flex:1; }
+.result-name { font-weight:700; font-size:15px; margin-bottom:4px; }
+.vote-bar-bg { height:3px; background:var(--border2); border-radius:4px; overflow:hidden; }
+.vote-bar-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--accent2)); border-radius:4px; width:0%; transition:width 1.2s cubic-bezier(0.34,1.2,0.64,1); }
+.result-pts { font-family:'Syne',sans-serif; font-size:20px; font-weight:800; color:var(--accent); }
 
-  /* ── INPUTS ── */
-  .input-group { margin-bottom: 16px; }
-  .input-label { font-size: 13px; color: var(--muted); margin-bottom: 8px; display: block; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; }
+/* FINAL */
+.final-winner-wrap { background:linear-gradient(135deg,rgba(124,111,255,0.1),rgba(255,95,126,0.08)); border:1.5px solid rgba(124,111,255,0.2); border-radius:var(--radius); padding:28px 20px; text-align:center; margin-bottom:24px; }
+.crown { font-size:50px; display:block; margin-bottom:10px; animation:crownBounce 0.7s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes crownBounce { from{transform:scale(0.3) rotate(-20deg);opacity:0;} to{transform:scale(1) rotate(0deg);opacity:1;} }
+.final-winner-name { font-family:'Syne',sans-serif; font-size:28px; font-weight:900; background:linear-gradient(135deg,#fff,var(--accent)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.final-winner-sub { color:var(--muted); font-size:14px; margin-top:4px; }
+.score-row { display:flex; align-items:center; gap:12px; background:var(--surface); border:1.5px solid var(--border); border-radius:14px; padding:12px 16px; margin-bottom:10px; }
+.score-row:first-child { border-color:rgba(255,215,0,0.3); background:rgba(255,215,0,0.03); }
+.score-pos { font-size:20px; width:28px; text-align:center; }
+.score-name { font-weight:600; font-size:15px; flex:1; }
+.score-pts { font-family:'Syne',sans-serif; font-size:20px; font-weight:800; color:var(--accent); }
 
-  input[type="text"], input[type="number"] {
-    width: 100%;
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 16px;
-    padding: 16px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  input:focus { border-color: var(--accent); }
-  input::placeholder { color: var(--muted); }
-
-  /* ── CARDS ── */
-  .card {
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px;
-    margin-bottom: 12px;
-  }
-
-  /* ── ROOM CODE ── */
-  .room-code-display {
-    background: var(--surface2);
-    border: 1.5px dashed var(--accent);
-    border-radius: var(--radius);
-    padding: 24px;
-    text-align: center;
-    margin-bottom: 24px;
-  }
-  .room-code-label { font-size: 12px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
-  .room-code-value {
-    font-family: 'Syne', sans-serif;
-    font-size: 48px;
-    font-weight: 800;
-    letter-spacing: 8px;
-    color: var(--accent);
-  }
-
-  /* ── PLAYERS LIST ── */
-  .players-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
-
-  .player-chip {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: var(--surface2);
-    border-radius: 12px;
-    padding: 14px 16px;
-    animation: slideIn 0.3s ease;
-  }
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateX(-10px); }
-    to   { opacity: 1; transform: translateX(0); }
-  }
-
-  .player-avatar {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-  }
-  .player-name { font-weight: 600; font-size: 15px; }
-  .player-badge { margin-left: auto; font-size: 11px; color: var(--muted); background: var(--border); padding: 4px 8px; border-radius: 20px; }
-
-  /* ── QUESTION SCREEN ── */
-  .question-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 32px;
-    margin-bottom: 28px;
-  }
-  .question-counter { font-size: 13px; color: var(--muted); font-weight: 500; }
-  .timer-circle {
-    width: 44px; height: 44px;
-    border-radius: 50%;
-    background: var(--surface2);
-    border: 2px solid var(--accent);
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Syne', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--accent);
-  }
-
-  .question-text {
-    font-family: 'Syne', sans-serif;
-    font-size: 26px;
-    font-weight: 700;
-    line-height: 1.25;
-    margin-bottom: 32px;
-    letter-spacing: -0.5px;
-  }
-
-  /* Drag & drop ranking */
-  .rank-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
-
-  .rank-item {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: 14px;
-    padding: 16px;
-    cursor: grab;
-    transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
-    user-select: none;
-    touch-action: none;
-  }
-  .rank-item:active { cursor: grabbing; }
-  .rank-item.dragging {
-    border-color: var(--accent);
-    box-shadow: 0 8px 32px rgba(108,99,255,0.3);
-    transform: scale(1.02);
-    z-index: 10;
-    position: relative;
-  }
-  .rank-item.drag-over { border-color: var(--accent2); background: rgba(255,101,132,0.05); }
-
-  .rank-number {
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    background: var(--accent);
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Syne', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    flex-shrink: 0;
-    transition: background 0.2s;
-  }
-  .rank-item:nth-child(1) .rank-number { background: #FFD700; color: #000; }
-  .rank-item:nth-child(2) .rank-number { background: #C0C0C0; color: #000; }
-  .rank-item:nth-child(3) .rank-number { background: #CD7F32; color: #000; }
-
-  .rank-emoji { font-size: 22px; }
-  .rank-name { font-weight: 600; font-size: 16px; flex: 1; }
-  .drag-handle { color: var(--muted); font-size: 18px; }
-
-  /* ── WAITING SCREEN ── */
-  .waiting-pulse {
-    width: 80px; height: 80px;
-    border-radius: 50%;
-    background: rgba(108,99,255,0.2);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 36px;
-    margin: 40px auto 24px;
-    animation: pulse 2s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(108,99,255,0.3); }
-    50% { transform: scale(1.05); box-shadow: 0 0 0 16px rgba(108,99,255,0); }
-  }
-
-  /* ── RESULTS SCREEN ── */
-  .results-podium { display: flex; flex-direction: column; gap: 14px; margin-bottom: 32px; }
-
-  .result-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 16px;
-    border-radius: 14px;
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    animation: revealRow 0.4s ease forwards;
-    opacity: 0;
-  }
-  .result-row:nth-child(1) { animation-delay: 0.1s; border-color: rgba(255,215,0,0.3); background: rgba(255,215,0,0.05); }
-  .result-row:nth-child(2) { animation-delay: 0.25s; border-color: rgba(192,192,192,0.3); background: rgba(192,192,192,0.05); }
-  .result-row:nth-child(3) { animation-delay: 0.4s; border-color: rgba(205,127,50,0.3); background: rgba(205,127,50,0.05); }
-  .result-row:nth-child(n+4) { animation-delay: 0.55s; }
-
-  @keyframes revealRow {
-    from { opacity: 0; transform: translateX(-16px); }
-    to   { opacity: 1; transform: translateX(0); }
-  }
-
-  .result-rank { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; width: 32px; text-align: center; }
-  .result-emoji { font-size: 24px; }
-  .result-name { font-weight: 600; font-size: 16px; flex: 1; }
-  .result-votes { font-size: 13px; color: var(--muted); }
-
-  /* vote breakdown */
-  .vote-bar-wrap { margin-top: 6px; }
-  .vote-bar-bg { height: 4px; background: var(--border); border-radius: 4px; overflow: hidden; }
-  .vote-bar-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 1s ease; }
-
-  /* ── SECTION TITLE ── */
-  .section-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 16px;
-    letter-spacing: -0.3px;
-  }
-
-  .divider { height: 1px; background: var(--border); margin: 20px 0; }
-  .spacer { flex: 1; }
-  .mt-8 { margin-top: 8px; }
-  .mt-16 { margin-top: 16px; }
-  .mt-24 { margin-top: 24px; }
-  .mt-32 { margin-top: 32px; }
-  .mb-8 { margin-bottom: 8px; }
-  .mb-16 { margin-bottom: 16px; }
-  .text-center { text-align: center; }
-  .text-muted { color: var(--muted); font-size: 14px; }
-
-  .badge-host { background: rgba(108,99,255,0.2); color: var(--accent); padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-
-  .score-chip {
-    background: var(--surface2);
-    border-radius: 12px;
-    padding: 12px 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-  }
-  .score-value { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: var(--accent); }
-
-  /* ── TOAST ── */
-  .toast {
-    position: fixed;
-    bottom: 32px;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background: var(--text);
-    color: var(--bg);
-    padding: 12px 24px;
-    border-radius: 100px;
-    font-weight: 600;
-    font-size: 14px;
-    transition: transform 0.3s ease;
-    z-index: 100;
-    white-space: nowrap;
-  }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-
-  .progress-bar {
-    height: 4px;
-    background: var(--border);
-    border-radius: 4px;
-    margin-bottom: 24px;
-    overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    border-radius: 4px;
-    transition: width 0.5s ease;
-  }
-
-  .crown { font-size: 48px; text-align: center; margin: 24px 0 8px; animation: bounce 0.6s ease; }
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0) rotate(-5deg); }
-    50% { transform: translateY(-12px) rotate(5deg); }
-  }
+/* MISC */
+.section-title { font-family:'Syne',sans-serif; font-size:20px; font-weight:800; margin-bottom:14px; letter-spacing:-0.3px; }
+.spacer { flex:1; }
+.mt-8{margin-top:8px;} .mt-12{margin-top:12px;} .mt-16{margin-top:16px;} .mt-20{margin-top:20px;} .mt-24{margin-top:24px;}
+.mb-8{margin-bottom:8px;} .mb-16{margin-bottom:16px;}
+.text-center{text-align:center;}
+.text-muted{color:var(--muted);font-size:14px;}
+.home-stats { display:flex; gap:10px; margin-bottom:28px; }
+.stat-chip { flex:1; background:var(--surface); border:1.5px solid var(--border2); border-radius:14px; padding:12px 8px; text-align:center; }
+.stat-num { font-family:'Syne',sans-serif; font-size:20px; font-weight:800; background:linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.stat-label { font-size:11px; color:var(--muted); margin-top:2px; }
+.code-input { font-family:'Syne',sans-serif !important; font-size:38px !important; font-weight:900 !important; letter-spacing:10px !important; text-align:center !important; padding:20px !important; }
+.toast { position:fixed; bottom:36px; left:50%; transform:translateX(-50%) translateY(120px); background:var(--text); color:var(--bg); padding:12px 24px; border-radius:100px; font-weight:700; font-size:14px; transition:transform 0.3s cubic-bezier(0.34,1.4,0.64,1); z-index:999; white-space:nowrap; box-shadow:0 8px 32px rgba(0,0,0,0.4); }
+.toast.show { transform:translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
 <div class="app">
 
-  <!-- ══ SCREEN: HOME ══ -->
-  <div class="screen active" id="screen-home">
-    <div class="logo">Rankd</div>
-    <div class="tagline">Classe tes amis. Découvre la vérité. 👀</div>
-
-    <div class="input-group">
-      <label class="input-label">Ton pseudo</label>
-      <input type="text" id="home-name" placeholder="ex: Lucas" maxlength="16">
-    </div>
-
-    <div class="btn-row mt-8">
-      <button class="btn btn-primary" onclick="goCreate()">Créer une room</button>
-      <button class="btn btn-secondary" onclick="goJoin()">Rejoindre</button>
-    </div>
-
-    <div class="spacer"></div>
-    <p class="text-muted text-center" style="font-size:12px; margin-top:32px;">Jeu multijoueur · 3 à 8 joueurs · Temps réel</p>
+<!-- HOME -->
+<div class="screen active" id="screen-home">
+  <div class="logo">Rankd.</div>
+  <div class="tagline">Classe tes amis. Découvre la vérité. 👀</div>
+  <div class="home-stats">
+    <div class="stat-chip"><div class="stat-num">200+</div><div class="stat-label">Questions</div></div>
+    <div class="stat-chip"><div class="stat-num">4</div><div class="stat-label">Thèmes</div></div>
+    <div class="stat-chip"><div class="stat-num">∞</div><div class="stat-label">Joueurs</div></div>
+    <div class="stat-chip"><div class="stat-num">10</div><div class="stat-label">Tours</div></div>
   </div>
-
-  <!-- ══ SCREEN: JOIN ══ -->
-  <div class="screen" id="screen-join">
-    <div style="margin-top:48px;">
-      <div class="section-title">Rejoindre une room</div>
-
-      <div class="input-group">
-        <label class="input-label">Code de la room</label>
-        <input type="text" id="join-code" placeholder="ex: 4829" maxlength="4" style="font-family:'Syne',sans-serif; font-size:32px; font-weight:800; letter-spacing:8px; text-align:center;">
-      </div>
-
-      <button class="btn btn-primary mt-16" onclick="joinRoom()">Rejoindre</button>
-      <button class="btn btn-secondary mt-8" onclick="showScreen('home')">Retour</button>
-    </div>
+  <div class="mb-16">
+    <label class="input-label">Ton pseudo</label>
+    <input type="text" id="home-name" placeholder="ex: Lucas" maxlength="16">
   </div>
-
-  <!-- ══ SCREEN: LOBBY ══ -->
-  <div class="screen" id="screen-lobby">
-    <div style="margin-top:32px;">
-      <div class="room-code-display">
-        <div class="room-code-label">Code de la room</div>
-        <div class="room-code-value" id="lobby-code">----</div>
-        <div class="text-muted mt-8" style="font-size:13px;">Partage ce code à tes amis</div>
-      </div>
-
-      <div class="section-title">Joueurs <span id="lobby-count" style="color:var(--muted); font-size:16px; font-weight:500;"></span></div>
-      <div class="players-grid" id="lobby-players"></div>
-
-      <div id="lobby-host-actions">
-        <button class="btn btn-success" id="start-btn" onclick="startGame()" disabled>Lancer la partie</button>
-        <p class="text-muted text-center mt-8" style="font-size:13px;" id="start-hint">Il faut au moins 3 joueurs pour commencer</p>
-      </div>
-      <div id="lobby-guest-wait" style="display:none;">
-        <div class="waiting-pulse" style="width:48px;height:48px;font-size:22px;margin:16px auto;">⏳</div>
-        <p class="text-muted text-center">En attente de l'hôte...</p>
-      </div>
-    </div>
+  <label class="input-label">Ta photo (optionnelle)</label>
+  <div class="photo-capture-wrap" onclick="triggerPhoto()" id="photo-wrap">
+    <img class="photo-preview" id="photo-preview" src="" alt="">
+    <div class="photo-placeholder" id="photo-placeholder">📸</div>
+    <div class="photo-hint" id="photo-hint"><strong>Prends une photo</strong> ou choisis depuis ta galerie</div>
   </div>
-
-  <!-- ══ SCREEN: QUESTION ══ -->
-  <div class="screen" id="screen-question">
-    <div class="question-header">
-      <div class="question-counter" id="q-counter">Question 1/5</div>
-      <div class="timer-circle" id="q-timer">30</div>
-    </div>
-    <div class="progress-bar"><div class="progress-fill" id="q-progress" style="width:0%"></div></div>
-
-    <div class="question-text" id="q-text">Qui serait le dernier à se réveiller ?</div>
-
-    <div class="rank-list" id="rank-list"></div>
-
-    <button class="btn btn-primary" id="submit-btn" onclick="submitRanking()">Valider mon classement</button>
-    <p class="text-muted text-center mt-8" id="submit-hint">Glisse pour réorganiser</p>
+  <input type="file" accept="image/*" capture="user" id="photo-input" style="display:none" onchange="handlePhoto(event)">
+  <div class="btn-row mt-8">
+    <button class="btn btn-primary" onclick="goCreate()">Créer une room</button>
+    <button class="btn btn-secondary" onclick="goJoin()">Rejoindre</button>
   </div>
-
-  <!-- ══ SCREEN: WAITING VOTES ══ -->
-  <div class="screen" id="screen-waiting">
-    <div class="waiting-pulse">🎲</div>
-    <div class="section-title text-center">En attente des autres...</div>
-    <p class="text-muted text-center">Tu as voté ! Les autres classent encore.</p>
-    <div class="players-grid mt-32" id="waiting-players"></div>
-  </div>
-
-  <!-- ══ SCREEN: RESULTS ══ -->
-  <div class="screen" id="screen-results">
-    <div style="margin-top:28px;">
-      <div class="question-counter" id="results-counter">Résultats — Question 1/5</div>
-      <div class="question-text mt-8" id="results-question"></div>
-      <div class="results-podium" id="results-list"></div>
-
-      <div id="results-host-next" style="display:none;">
-        <button class="btn btn-primary" onclick="nextQuestion()">Question suivante →</button>
-      </div>
-      <div id="results-guest-next" style="display:none;">
-        <div class="waiting-pulse" style="width:40px;height:40px;font-size:18px;margin:12px auto;">⏳</div>
-        <p class="text-muted text-center">L'hôte passe à la suite...</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ SCREEN: FINAL SCORES ══ -->
-  <div class="screen" id="screen-final">
-    <div style="margin-top:28px;">
-      <div class="crown" id="final-crown">👑</div>
-      <div class="section-title text-center" id="final-winner"></div>
-      <p class="text-muted text-center mb-16">a dominé cette partie</p>
-
-      <div class="divider"></div>
-      <div class="section-title mt-16">Scores finaux</div>
-      <div id="final-scores"></div>
-
-      <button class="btn btn-primary mt-24" onclick="playAgain()">Rejouer</button>
-      <button class="btn btn-secondary mt-8" onclick="showScreen('home')">Quitter</button>
-    </div>
-  </div>
-
+  <div class="spacer"></div>
+  <p class="text-muted text-center" style="font-size:12px;margin-top:24px;">Jeu multijoueur · 2+ joueurs · Temps réel</p>
 </div>
 
-<!-- TOAST -->
+<!-- THEME -->
+<div class="screen" id="screen-theme">
+  <div style="margin-top:48px;">
+    <div class="logo-sm" style="margin-bottom:20px;">Rankd.</div>
+    <div class="section-title">Choisis un thème 🎨</div>
+    <div class="themes-grid">
+      <div class="theme-card" data-theme="potes" onclick="selectTheme(this)">
+        <div class="theme-emoji">🤝</div><div class="theme-name">Potes</div><div class="theme-count">50 questions</div>
+      </div>
+      <div class="theme-card" data-theme="soiree" onclick="selectTheme(this)">
+        <div class="theme-emoji">🎉</div><div class="theme-name">Soirée</div><div class="theme-count">50 questions</div>
+      </div>
+      <div class="theme-card" data-theme="amoureux" onclick="selectTheme(this)">
+        <div class="theme-emoji">💕</div><div class="theme-name">Amoureux</div><div class="theme-count">50 questions</div>
+      </div>
+      <div class="theme-card" data-theme="famille" onclick="selectTheme(this)">
+        <div class="theme-emoji">👨‍👩‍👧‍👦</div><div class="theme-name">Famille</div><div class="theme-count">50 questions</div>
+      </div>
+    </div>
+    <button class="btn btn-primary" id="theme-btn" onclick="createRoom()" disabled>Créer la room →</button>
+    <button class="btn btn-secondary mt-8" onclick="showScreen('home')">← Retour</button>
+  </div>
+</div>
+
+<!-- JOIN -->
+<div class="screen" id="screen-join">
+  <div style="margin-top:56px;">
+    <div class="logo-sm" style="margin-bottom:20px;">Rankd.</div>
+    <div class="section-title">Rejoindre 🔑</div>
+    <p class="text-muted mb-16">Entre le code de la room</p>
+    <label class="input-label">Code</label>
+    <input type="text" id="join-code" placeholder="0000" maxlength="4" class="code-input">
+    <button class="btn btn-primary mt-16" onclick="joinRoom()">Rejoindre</button>
+    <button class="btn btn-secondary mt-8" onclick="showScreen('home')">← Retour</button>
+  </div>
+</div>
+
+<!-- LOBBY -->
+<div class="screen" id="screen-lobby">
+  <div style="margin-top:28px;">
+    <div class="logo-sm" style="margin-bottom:20px;">Rankd.</div>
+    <div class="room-code-display">
+      <div class="room-code-label">Code de la room</div>
+      <div class="room-code-value" id="lobby-code">----</div>
+      <div class="room-code-hint">Partage ce code à tes amis</div>
+    </div>
+    <div class="section-title">Joueurs <span id="lobby-count" style="color:var(--muted);font-size:15px;font-weight:500;"></span></div>
+    <div class="players-grid" id="lobby-players"></div>
+    <div id="lobby-host-actions">
+      <button class="btn btn-success" id="start-btn" onclick="startGame()" disabled>Lancer 🚀</button>
+      <p class="text-muted text-center mt-8" style="font-size:13px;" id="start-hint">Il faut au moins 2 joueurs</p>
+    </div>
+    <div id="lobby-guest-wait" style="display:none;">
+      <p class="text-muted text-center mt-16">⏳ En attente de l'hôte...</p>
+    </div>
+  </div>
+</div>
+
+<!-- QUESTION -->
+<div class="screen" id="screen-question">
+  <div class="question-header">
+    <div class="q-meta">
+      <div class="q-counter" id="q-counter">Tour 1 / 10</div>
+      <div class="q-theme-label" id="q-theme-label"></div>
+    </div>
+    <div class="timer-circle" id="q-timer">30</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="q-progress" style="width:0%"></div></div>
+  <span class="question-emoji" id="q-emoji">🎯</span>
+  <div class="question-text" id="q-text"></div>
+  <div class="rank-list" id="rank-list"></div>
+  <button class="btn btn-primary" id="submit-btn" onclick="submitRanking()">Valider ✓</button>
+  <p class="text-muted text-center mt-8" style="font-size:12px;">Glisse pour réorganiser</p>
+</div>
+
+<!-- WAITING -->
+<div class="screen" id="screen-waiting">
+  <div class="waiting-wrap">
+    <div class="waiting-pulse">🎲</div>
+    <div class="section-title text-center">T'as voté !</div>
+    <p class="text-muted text-center mb-16">En attente des autres...</p>
+    <div class="players-grid" style="width:100%" id="waiting-players"></div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div class="screen" id="screen-results">
+  <div style="margin-top:24px;">
+    <div class="q-counter" id="results-counter"></div>
+    <div class="question-text mt-8" id="results-question" style="font-size:18px;text-align:left;"></div>
+    <div id="results-list"></div>
+    <div id="results-host-next" style="display:none;">
+      <button class="btn btn-primary" onclick="nextQuestion()" id="next-btn">Tour suivant →</button>
+    </div>
+    <div id="results-guest-next" style="display:none;">
+      <p class="text-muted text-center mt-16">⏳ L'hôte passe à la suite...</p>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL -->
+<div class="screen" id="screen-final">
+  <div style="margin-top:24px;">
+    <div class="final-winner-wrap">
+      <span class="crown">👑</span>
+      <div id="final-winner-avatar"></div>
+      <div class="final-winner-name" id="final-winner-name"></div>
+      <div class="final-winner-sub">a dominé cette partie</div>
+    </div>
+    <div class="section-title">Classement final</div>
+    <div id="final-scores"></div>
+    <button class="btn btn-primary mt-20" onclick="playAgain()">Rejouer 🔄</button>
+    <button class="btn btn-secondary mt-8" onclick="showScreen('home')">Quitter</button>
+  </div>
+</div>
+
+</div>
 <div class="toast" id="toast"></div>
 
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import { getDatabase, ref, set, get, onValue, update, push, remove } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
+import { getDatabase, ref, set, get, onValue, update, remove } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
 
-// ── FIREBASE CONFIG ── (remplace par ta propre config Firebase)
 const firebaseConfig = {
   apiKey: "AIzaSyBT4D0LH4aUxNRtPOlYLmYa2t_p2Jz2Few",
   authDomain: "rankd-e8d57.firebaseapp.com",
@@ -534,497 +330,514 @@ const firebaseConfig = {
   messagingSenderId: "916031084119",
   appId: "1:916031084119:web:b90e6f3357d8ec69137512"
 };
-
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// ── QUESTIONS ──
-const QUESTIONS = [
-  { text: "Qui serait le dernier à se réveiller le matin ?", emoji: "😴" },
-  { text: "Qui dépenserait tout son argent en une nuit ?", emoji: "💸" },
-  { text: "Qui survivrait le plus longtemps dans une apocalypse zombie ?", emoji: "🧟" },
-  { text: "Qui est le plus susceptible de trahir le groupe ?", emoji: "🗡️" },
-  { text: "Qui deviendrait célèbre en premier ?", emoji: "⭐" },
-  { text: "Qui arriverait en premier à 1M sur TikTok ?", emoji: "📱" },
-  { text: "Qui pleurerait en premier dans un film triste ?", emoji: "😭" },
-  { text: "Qui serait le plus riche dans 10 ans ?", emoji: "💰" },
-  { text: "Qui est le plus courageux du groupe ?", emoji: "🦁" },
-  { text: "Qui serait le premier à avouer un mensonge ?", emoji: "🤥" },
-];
-
-const EMOJIS = ["🐺","🦊","🐻","🐯","🦁","🐸","🐼","🦋","🐺","🐲","👽","🤖"];
-
-// ── STATE ──
-let state = {
-  roomCode: null,
-  playerId: null,
-  playerName: null,
-  isHost: false,
-  players: {},
-  currentQuestion: 0,
-  totalQuestions: 5,
-  myRanking: [],
-  scores: {},
-  submitted: false,
-  timerInterval: null,
-  unsubscribers: [],
+const QUESTIONS = {
+  potes:[
+    {text:"Qui serait le dernier debout après une nuit blanche ?",emoji:"🌙"},
+    {text:"Qui pleurerait en premier dans un film Disney ?",emoji:"😭"},
+    {text:"Qui oublierait l'anniversaire de tout le monde ?",emoji:"🎂"},
+    {text:"Qui likerait accidentellement une vieille photo de son ex ?",emoji:"📱"},
+    {text:"Qui mangerait la pizza de quelqu'un d'autre sans demander ?",emoji:"🍕"},
+    {text:"Qui se perdrait dans un Ikea et ne retrouverait jamais la sortie ?",emoji:"🗺️"},
+    {text:"Qui serait le dernier à comprendre une blague ?",emoji:"😶"},
+    {text:"Qui ferait la queue 3h pour une édition limitée ?",emoji:"👟"},
+    {text:"Qui deviendrait influenceur en premier ?",emoji:"🎥"},
+    {text:"Qui parlerait à un inconnu dans le métro ?",emoji:"🚇"},
+    {text:"Qui serait le meilleur candidat dans Secret Story ?",emoji:"🏠"},
+    {text:"Qui pleurerait si on lui enlève son téléphone 24h ?",emoji:"📵"},
+    {text:"Qui se ferait arnaquer par une pub Instagram ?",emoji:"🎣"},
+    {text:"Qui survivrait le plus longtemps dans une apocalypse zombie ?",emoji:"🧟"},
+    {text:"Qui deviendrait célèbre pour une raison absurde ?",emoji:"⭐"},
+    {text:"Qui mangerait de la nourriture tombée par terre ?",emoji:"🍟"},
+    {text:"Qui serait le dernier à admettre qu'il a tort ?",emoji:"🤬"},
+    {text:"Qui enverrait le vocal le plus long ?",emoji:"🎙️"},
+    {text:"Qui deviendrait accro à un jeu mobile en une semaine ?",emoji:"🎮"},
+    {text:"Qui serait le plus riche dans 10 ans ?",emoji:"💰"},
+    {text:"Qui adopterait 5 chats d'un coup ?",emoji:"🐱"},
+    {text:"Qui gagnerait un concours de mauvaises blagues ?",emoji:"🥲"},
+    {text:"Qui prend le plus de photos de nourriture avant de manger ?",emoji:"📸"},
+    {text:"Qui serait le plus courageux pour parler à son crush ?",emoji:"💘"},
+    {text:"Qui craquerait en premier lors d'un régime ?",emoji:"🍰"},
+    {text:"Qui oublierait de recharger son téléphone avant un voyage ?",emoji:"🔋"},
+    {text:"Qui finirait au karaoké à 4h du matin ?",emoji:"🎤"},
+    {text:"Qui se lèverait le plus tard le week-end ?",emoji:"😴"},
+    {text:"Qui dépenserait tout son compte en une nuit de shopping ?",emoji:"💸"},
+    {text:"Qui résisterait le moins à un pari stupide ?",emoji:"🎲"},
+    {text:"Qui serait le meilleur avocat si sa vie en dépendait ?",emoji:"⚖️"},
+    {text:"Qui survivrait le moins longtemps sans fast food ?",emoji:"🍔"},
+    {text:"Qui croirait le plus facilement à un complot ?",emoji:"🌙"},
+    {text:"Qui se ferait le plus facilement manipuler ?",emoji:"🎭"},
+    {text:"Qui deviendrait le meilleur chef cuisinier ?",emoji:"👨‍🍳"},
+    {text:"Qui disparaîtrait le plus souvent pendant une fête ?",emoji:"👻"},
+    {text:"Qui enverrait un message à la mauvaise personne ?",emoji:"😬"},
+    {text:"Qui serait le plus nostalgique du lycée dans 10 ans ?",emoji:"🏫"},
+    {text:"Qui appellerait sa mère en premier en cas de problème ?",emoji:"📞"},
+    {text:"Qui ferait le meilleur discours improvisé ?",emoji:"💍"},
+    {text:"Qui se perdrait sans GPS ?",emoji:"🧭"},
+    {text:"Qui raterait son réveil le plus souvent ?",emoji:"⏰"},
+    {text:"Qui proposerait l'idée la plus folle ?",emoji:"💡"},
+    {text:"Qui arriverait en retard à son propre mariage ?",emoji:"💒"},
+    {text:"Qui serait le meilleur DJ d'une soirée ?",emoji:"🎧"},
+    {text:"Qui deviendrait le plus célèbre du groupe ?",emoji:"🌟"},
+    {text:"Qui perdrait ses clés tous les jours ?",emoji:"🔑"},
+    {text:"Qui apprendrait le plus vite une nouvelle langue ?",emoji:"🗣️"},
+    {text:"Qui aurait le plus de tatouages dans 5 ans ?",emoji:"💉"},
+    {text:"Qui partirait vivre à l'étranger en premier ?",emoji:"✈️"},
+  ],
+  soiree:[
+    {text:"Qui serait le premier sur la piste de danse ?",emoji:"🕺"},
+    {text:"Qui commanderait à manger à 3h du matin ?",emoji:"🍕"},
+    {text:"Qui tomberait endormi en premier ?",emoji:"😴"},
+    {text:"Qui ferait le speech le plus embarrassant ?",emoji:"🎤"},
+    {text:"Qui serait le dernier à rentrer chez lui ?",emoji:"🌅"},
+    {text:"Qui danserait seul dans un coin sans s'en rendre compte ?",emoji:"💃"},
+    {text:"Qui perdrait ses affaires en premier ?",emoji:"👜"},
+    {text:"Qui aurait la pire gueule de bois le lendemain ?",emoji:"🤢"},
+    {text:"Qui se ferait des amis avec tout le monde en 5 minutes ?",emoji:"🤗"},
+    {text:"Qui appellerait son ex pendant la soirée ?",emoji:"📞"},
+    {text:"Qui prendrait le plus de selfies de la nuit ?",emoji:"🤳"},
+    {text:"Qui serait le dernier à quitter la piste ?",emoji:"🎉"},
+    {text:"Qui ferait la danse la plus mémorable ?",emoji:"🎵"},
+    {text:"Qui essaierait de devenir ami avec le videur ?",emoji:"🚪"},
+    {text:"Qui organiserait l'after party spontanément ?",emoji:"🏠"},
+    {text:"Qui chanterait le plus fort sur une chanson qu'il connaît pas ?",emoji:"🎶"},
+    {text:"Qui porterait la tenue la plus remarquée ?",emoji:"👗"},
+    {text:"Qui monterait sur une table ?",emoji:"🪑"},
+    {text:"Qui raterait son taxi et dormirait sur place ?",emoji:"🚕"},
+    {text:"Qui ferait la meilleure photo souvenir ?",emoji:"📷"},
+    {text:"Qui chanterait a capella sans qu'on lui demande ?",emoji:"🎤"},
+    {text:"Qui parlerait le plus fort de tout le monde ?",emoji:"📢"},
+    {text:"Qui commanderait le cocktail le plus bizarre ?",emoji:"🍹"},
+    {text:"Qui resterait le plus sobre de la nuit ?",emoji:"💧"},
+    {text:"Qui posterait le plus de stories ?",emoji:"📱"},
+    {text:"Qui proposerait de continuer ailleurs à minuit ?",emoji:"🌃"},
+    {text:"Qui proposerait un jeu en premier ?",emoji:"🎮"},
+    {text:"Qui ferait la meilleure imitation de quelqu'un ?",emoji:"🎭"},
+    {text:"Qui aurait la meilleure playlist ?",emoji:"🎵"},
+    {text:"Qui pleurerait de joie pendant la soirée ?",emoji:"😂"},
+    {text:"Qui ramènerait des inconnus dans le groupe ?",emoji:"👥"},
+    {text:"Qui perdrait le fil de la conversation le plus vite ?",emoji:"💭"},
+    {text:"Qui ferait une entrée remarquée ?",emoji:"🚀"},
+    {text:"Qui ne retrouverait pas son téléphone de la nuit ?",emoji:"📵"},
+    {text:"Qui proposerait un karaoké en premier ?",emoji:"🎤"},
+    {text:"Qui dépenserait le plus en une nuit ?",emoji:"💸"},
+    {text:"Qui finirait dans un after inattendu ?",emoji:"🎊"},
+    {text:"Qui ferait rire tout le monde avec ses danses ?",emoji:"😂"},
+    {text:"Qui serait le roi ou la reine de la soirée ?",emoji:"👑"},
+    {text:"Qui proposerait les meilleures idées de jeux ?",emoji:"🎲"},
+    {text:"Qui s'endormirait sur le canapé en premier ?",emoji:"🛋️"},
+    {text:"Qui rentrerait avec le plus de nouvelles connaissances ?",emoji:"📲"},
+    {text:"Qui perdrait ses chaussures en premier ?",emoji:"👠"},
+    {text:"Qui commanderait pour tout le monde sans demander ?",emoji:"📋"},
+    {text:"Qui serait le dernier à rentrer le lendemain matin ?",emoji:"☀️"},
+    {text:"Qui organiserait la prochaine soirée sur le chemin du retour ?",emoji:"📅"},
+    {text:"Qui danserait le plus mal mais avec le plus de confiance ?",emoji:"🕺"},
+    {text:"Qui ferait semblant d'être occupé pour éviter quelqu'un ?",emoji:"🙈"},
+    {text:"Qui serait le premier à s'endormir dans le taxi ?",emoji:"🚗"},
+    {text:"Qui dépenserait le plus en Uber sur la nuit ?",emoji:"🚖"},
+  ],
+  amoureux:[
+    {text:"Qui enverrait le premier message après un silence gêné ?",emoji:"💬"},
+    {text:"Qui tomberait amoureux le plus vite ?",emoji:"❤️"},
+    {text:"Qui serait le plus jaloux dans une relation ?",emoji:"😤"},
+    {text:"Qui serait le plus romantique du groupe ?",emoji:"🌹"},
+    {text:"Qui préparerait la meilleure surprise pour son partenaire ?",emoji:"🎁"},
+    {text:"Qui lirait tous les messages de son crush en détail ?",emoji:"🔍"},
+    {text:"Qui attendrait le plus longtemps avant de déclarer ses sentiments ?",emoji:"⏳"},
+    {text:"Qui ferait un geste romantique en public ?",emoji:"💏"},
+    {text:"Qui regarderait des films romantiques en cachette ?",emoji:"🎬"},
+    {text:"Qui ferait la meilleure première impression ?",emoji:"✨"},
+    {text:"Qui serait le plus difficile à reconquérir après une dispute ?",emoji:"🌧️"},
+    {text:"Qui céderait le premier dans une dispute de couple ?",emoji:"🏳️"},
+    {text:"Qui ferait le plus de sacrifices pour l'amour ?",emoji:"💝"},
+    {text:"Qui aurait le coup de foudre le plus facilement ?",emoji:"⚡"},
+    {text:"Qui planterait un rendez-vous pour regarder Netflix ?",emoji:"🛋️"},
+    {text:"Qui serait le plus attentionné dans une relation ?",emoji:"🫶"},
+    {text:"Qui dirait je t'aime en premier ?",emoji:"💕"},
+    {text:"Qui ferait le plus long trajet pour voir quelqu'un ?",emoji:"🚂"},
+    {text:"Qui serait le plus difficile à impressionner ?",emoji:"😏"},
+    {text:"Qui se souviendrait de tous les anniversaires de couple ?",emoji:"📅"},
+    {text:"Qui garderait un secret amoureux le mieux ?",emoji:"🤫"},
+    {text:"Qui enverrait des fleurs sans raison particulière ?",emoji:"💐"},
+    {text:"Qui relirait les vieilles conversations avec son crush ?",emoji:"💭"},
+    {text:"Qui ferait le dîner romantique parfait ?",emoji:"🍷"},
+    {text:"Qui écrirait une lettre à la main ?",emoji:"✍️"},
+    {text:"Qui serait le plus difficile à lire quand il a des sentiments ?",emoji:"🎭"},
+    {text:"Qui ferait le meilleur câlin du groupe ?",emoji:"🤗"},
+    {text:"Qui stalkerait son crush sur les réseaux ?",emoji:"👀"},
+    {text:"Qui donnerait toujours la priorité à l'amour sur l'amitié ?",emoji:"💔"},
+    {text:"Qui tomberait amoureux d'un inconnu en voyage ?",emoji:"🌍"},
+    {text:"Qui serait le plus loyal dans une longue relation ?",emoji:"💍"},
+    {text:"Qui ferait le plus beau discours d'anniversaire ?",emoji:"🎂"},
+    {text:"Qui consolerait le mieux son partenaire ?",emoji:"🤍"},
+    {text:"Qui ferait une surprise à minuit ?",emoji:"🎆"},
+    {text:"Qui remarquerait un changement chez son partenaire en premier ?",emoji:"🔎"},
+    {text:"Qui garderait toutes les photos de couple ?",emoji:"🖼️"},
+    {text:"Qui ferait le geste le plus inattendu pour plaire ?",emoji:"🎯"},
+    {text:"Qui présenterait son partenaire à la famille en premier ?",emoji:"👨‍👩‍👦"},
+    {text:"Qui tomberait amoureux d'un ami ?",emoji:"🫂"},
+    {text:"Qui serait le plus attentif aux détails chez son partenaire ?",emoji:"🌸"},
+    {text:"Qui organiserait le voyage romantique parfait ?",emoji:"🏖️"},
+    {text:"Qui resterait avec quelqu'un qui ne le mérite pas ?",emoji:"😔"},
+    {text:"Qui ferait rire son partenaire dans les moments difficiles ?",emoji:"😄"},
+    {text:"Qui ferait la demande en mariage la plus créative ?",emoji:"💍"},
+    {text:"Qui serait le plus dépendant affectivement ?",emoji:"🔗"},
+    {text:"Qui s'excuserait en premier après une dispute ?",emoji:"🙏"},
+    {text:"Qui vivrait la plus belle histoire d'amour du groupe ?",emoji:"📖"},
+    {text:"Qui serait le plus susceptible d'avoir le cœur brisé ?",emoji:"💔"},
+    {text:"Qui enverrait le message le plus long à son crush ?",emoji:"📝"},
+    {text:"Qui ferait la playlist parfaite pour une soirée en amoureux ?",emoji:"🎵"},
+  ],
+  famille:[
+    {text:"Qui serait le chouchou des grands-parents ?",emoji:"👴"},
+    {text:"Qui appellerait sa mère tous les jours ?",emoji:"📞"},
+    {text:"Qui arriverait en retard à tous les repas de famille ?",emoji:"🍽️"},
+    {text:"Qui donnerait les meilleurs conseils dans la famille ?",emoji:"🧠"},
+    {text:"Qui se marierait en premier ?",emoji:"👰"},
+    {text:"Qui ferait pleurer tout le monde à Noël avec son discours ?",emoji:"🎄"},
+    {text:"Qui ramènerait un inconnu au repas de famille ?",emoji:"🚶"},
+    {text:"Qui défendrait toujours les autres même quand ils ont tort ?",emoji:"🛡️"},
+    {text:"Qui serait le plus nostalgique des vacances d'enfance ?",emoji:"🏖️"},
+    {text:"Qui ressemblerait le plus à ses parents en vieillissant ?",emoji:"👨‍👩‍👦"},
+    {text:"Qui serait le meilleur pour garder les enfants ?",emoji:"👶"},
+    {text:"Qui cuisinerait le meilleur repas de Noël ?",emoji:"🎅"},
+    {text:"Qui aurait des enfants en premier ?",emoji:"🍼"},
+    {text:"Qui garderait toutes les traditions familiales ?",emoji:"🏠"},
+    {text:"Qui déménagerait le plus loin de sa famille ?",emoji:"✈️"},
+    {text:"Qui raconterait tout à ses parents ?",emoji:"🗣️"},
+    {text:"Qui offrirait les meilleurs cadeaux à Noël ?",emoji:"🎁"},
+    {text:"Qui jouerait le médiateur lors des disputes familiales ?",emoji:"🤝"},
+    {text:"Qui ferait honte à toute la famille au karaoké du réveillon ?",emoji:"🎤"},
+    {text:"Qui pleurerait en regardant les vieilles photos de famille ?",emoji:"📷"},
+    {text:"Qui serait le dernier à quitter la maison familiale ?",emoji:"🏡"},
+    {text:"Qui deviendrait comme son parent préféré ?",emoji:"💛"},
+    {text:"Qui organiserait les meilleures retrouvailles familiales ?",emoji:"🎊"},
+    {text:"Qui garderait le plus de secrets de famille ?",emoji:"🤫"},
+    {text:"Qui vivrait dans la même ville que ses parents ?",emoji:"📍"},
+    {text:"Qui aiderait le plus lors d'un déménagement familial ?",emoji:"📦"},
+    {text:"Qui ferait la plus longue route pour les fêtes ?",emoji:"🚗"},
+    {text:"Qui oublierait d'appeler pour un anniversaire ?",emoji:"🎂"},
+    {text:"Qui serait le plus proche de ses cousins ?",emoji:"👫"},
+    {text:"Qui hériterait des meilleures recettes de famille ?",emoji:"📖"},
+    {text:"Qui prendrait soin de ses parents quand ils seront vieux ?",emoji:"❤️"},
+    {text:"Qui ferait le meilleur barbecue familial ?",emoji:"🔥"},
+    {text:"Qui serait le pilier de la famille ?",emoji:"🏛️"},
+    {text:"Qui réconcilierait les membres en froid ?",emoji:"🕊️"},
+    {text:"Qui raconterait les meilleures anecdotes de famille ?",emoji:"📚"},
+    {text:"Qui ferait le plus rire lors des repas de famille ?",emoji:"😂"},
+    {text:"Qui transmettrait le mieux les valeurs familiales ?",emoji:"🌱"},
+    {text:"Qui arriverait en premier en cas de problème familial ?",emoji:"🏃"},
+    {text:"Qui garderait le contact avec toute la famille ?",emoji:"🌐"},
+    {text:"Qui serait le plus attaché aux souvenirs de famille ?",emoji:"🏺"},
+    {text:"Qui ferait le meilleur discours lors d'une cérémonie familiale ?",emoji:"🎙️"},
+    {text:"Qui serait le dernier au courant des nouvelles familiales ?",emoji:"📰"},
+    {text:"Qui créerait le groupe WhatsApp familial ?",emoji:"💬"},
+    {text:"Qui serait le meilleur parrain ou marraine ?",emoji:"✨"},
+    {text:"Qui serait le plus fier de ses racines familiales ?",emoji:"🌿"},
+    {text:"Qui viderait le frigo de ses parents en rentrant ?",emoji:"🍽️"},
+    {text:"Qui ferait fondre les grands-parents avec un seul sourire ?",emoji:"😊"},
+    {text:"Qui pleurerait le plus à un mariage de famille ?",emoji:"😭"},
+    {text:"Qui organiserait la meilleure fête d'anniversaire pour un parent ?",emoji:"🎉"},
+    {text:"Qui serait le premier à appeler tout le monde pour des nouvelles ?",emoji:"📲"},
+  ],
 };
 
-// ── UTILS ──
-function showScreen(id) {
+const THEME_LABELS = { potes:"🤝 Potes", soiree:"🎉 Soirée", amoureux:"💕 Amoureux", famille:"👨‍👩‍👧‍👦 Famille" };
+const EMOJIS = ["🐺","🦊","🐻","🐯","🦁","🐸","🐼","🦋","🐲","👽","🤖","🦄","🐧","🦅","🐙","🦈","🐬"];
+
+let state = {
+  roomCode:null, playerId:null, playerName:null, playerPhoto:null,
+  isHost:false, players:{}, currentQuestion:0, totalQuestions:10,
+  selectedTheme:null, myRanking:[], scores:{}, submitted:false,
+  timerInterval:null, unsubscribers:[],
+};
+
+// PHOTO
+window.triggerPhoto = () => document.getElementById('photo-input').click();
+window.handlePhoto = (e) => {
+  const file = e.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = 80; canvas.height = 80;
+      const ctx = canvas.getContext('2d');
+      const s = Math.min(img.width, img.height);
+      ctx.drawImage(img, (img.width-s)/2, (img.height-s)/2, s, s, 0, 0, 80, 80);
+      state.playerPhoto = canvas.toDataURL('image/jpeg', 0.7);
+      const preview = document.getElementById('photo-preview');
+      preview.src = state.playerPhoto; preview.style.display = 'block';
+      document.getElementById('photo-placeholder').style.display = 'none';
+      document.getElementById('photo-hint').textContent = '✓ Photo prête !';
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+};
+
+// UTILS
+window.showScreen = (id) => {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + id).classList.add('active');
-}
-
-function showToast(msg) {
+  window.scrollTo(0,0);
+};
+function toast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2600);
+}
+function genCode() { return Math.floor(1000 + Math.random()*9000).toString(); }
+function genId() { return Math.random().toString(36).substr(2,9); }
+function getName() { const n = document.getElementById('home-name').value.trim(); if(!n){toast('Entre ton pseudo !');return null;} return n; }
+function randEmoji() { return EMOJIS[Math.floor(Math.random()*EMOJIS.length)]; }
+function av(p, size=40) {
+  if (p.photo) return `<img src="${p.photo}" style="width:${size}px;height:${size}px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,0.15);flex-shrink:0;">`;
+  return `<div style="width:${size}px;height:${size}px;border-radius:50%;background:linear-gradient(135deg,rgba(124,111,255,0.2),rgba(255,95,126,0.2));display:flex;align-items:center;justify-content:center;font-size:${Math.round(size*0.5)}px;border:2px solid rgba(255,255,255,0.1);flex-shrink:0;">${p.emoji}</div>`;
 }
 
-function genCode() { return Math.floor(1000 + Math.random() * 9000).toString(); }
-function genId() { return Math.random().toString(36).substr(2, 9); }
+// THEME
+window.selectTheme = (el) => {
+  document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.selectedTheme = el.dataset.theme;
+  document.getElementById('theme-btn').disabled = false;
+};
 
-function getName() {
-  const n = document.getElementById('home-name').value.trim();
-  if (!n) { showToast('Entre ton pseudo d\'abord !'); return null; }
-  return n;
-}
-
-// ── EXPOSE GLOBALS ──
-window.showScreen = showScreen;
-
-window.goCreate = async function() {
-  const name = getName(); if (!name) return;
-  state.playerName = name;
-  state.playerId = genId();
-  state.isHost = true;
-  state.roomCode = genCode();
-  state.currentQuestion = 0;
-  state.scores = {};
-
-  const playerData = { name, emoji: EMOJIS[Math.floor(Math.random()*EMOJIS.length)], isHost: true, score: 0, submitted: false };
-  state.scores[state.playerId] = 0;
-
+// CREATE
+window.goCreate = () => { const n=getName(); if(!n)return; state.playerName=n; showScreen('theme'); };
+window.createRoom = async () => {
+  if (!state.selectedTheme) { toast('Choisis un thème !'); return; }
+  state.playerId = genId(); state.isHost = true; state.roomCode = genCode(); state.scores = {};
   await set(ref(db, `rooms/${state.roomCode}`), {
-    host: state.playerId,
-    status: 'lobby',
-    currentQuestion: 0,
-    totalQuestions: state.totalQuestions,
-    players: { [state.playerId]: playerData },
-    votes: {},
+    host: state.playerId, status:'lobby', theme: state.selectedTheme,
+    currentQuestion:0, totalQuestions:state.totalQuestions,
+    players:{ [state.playerId]:{ name:state.playerName, emoji:randEmoji(), photo:state.playerPhoto||null, isHost:true, score:0, submitted:false } },
+    votes:{},
   });
-
-  showScreen('lobby');
   document.getElementById('lobby-code').textContent = state.roomCode;
-  listenLobby();
+  document.getElementById('lobby-host-actions').style.display = 'block';
+  document.getElementById('lobby-guest-wait').style.display = 'none';
+  showScreen('lobby'); listenLobby();
 };
 
-window.goJoin = function() {
-  const name = getName(); if (!name) return;
-  state.playerName = name;
-  showScreen('join');
-};
-
-window.joinRoom = async function() {
+// JOIN
+window.goJoin = () => { const n=getName(); if(!n)return; state.playerName=n; showScreen('join'); };
+window.joinRoom = async () => {
   const code = document.getElementById('join-code').value.trim();
-  if (code.length !== 4) { showToast('Code à 4 chiffres !'); return; }
-
+  if (code.length!==4) { toast('Code à 4 chiffres !'); return; }
   const snap = await get(ref(db, `rooms/${code}`));
-  if (!snap.exists()) { showToast('Room introuvable 😕'); return; }
+  if (!snap.exists()) { toast('Room introuvable 😕'); return; }
   const room = snap.val();
-  if (room.status !== 'lobby') { showToast('Partie déjà commencée !'); return; }
-  const playerCount = Object.keys(room.players || {}).length;
-  if (playerCount >= 8) { showToast('Room pleine (max 8)'); return; }
-
-  state.roomCode = code;
-  state.playerId = genId();
-  state.isHost = false;
-  state.currentQuestion = room.currentQuestion || 0;
-  state.totalQuestions = room.totalQuestions || 5;
-
-  const playerData = { name: state.playerName, emoji: EMOJIS[Math.floor(Math.random()*EMOJIS.length)], isHost: false, score: 0, submitted: false };
-  await update(ref(db, `rooms/${code}/players`), { [state.playerId]: playerData });
-
-  showScreen('lobby');
+  if (room.status!=='lobby') { toast('Partie déjà en cours !'); return; }
+  state.roomCode=code; state.playerId=genId(); state.isHost=false;
+  state.totalQuestions=room.totalQuestions||10; state.selectedTheme=room.theme;
+  await update(ref(db, `rooms/${code}/players`), {
+    [state.playerId]:{ name:state.playerName, emoji:randEmoji(), photo:state.playerPhoto||null, isHost:false, score:0, submitted:false }
+  });
   document.getElementById('lobby-code').textContent = code;
-  listenLobby();
+  document.getElementById('lobby-host-actions').style.display = 'none';
+  document.getElementById('lobby-guest-wait').style.display = 'block';
+  showScreen('lobby'); listenLobby();
 };
 
-// ── LOBBY LISTENER ──
+// LOBBY
 function listenLobby() {
-  const roomRef = ref(db, `rooms/${state.roomCode}`);
-  const unsub = onValue(roomRef, snap => {
+  const unsub = onValue(ref(db, `rooms/${state.roomCode}`), snap => {
     if (!snap.exists()) return;
     const room = snap.val();
-    state.players = room.players || {};
+    state.players = room.players||{};
     const count = Object.keys(state.players).length;
-
-    // Render players
     const grid = document.getElementById('lobby-players');
     if (grid) {
-      grid.innerHTML = '';
-      Object.entries(state.players).forEach(([id, p]) => {
-        const chip = document.createElement('div');
-        chip.className = 'player-chip';
-        chip.innerHTML = `
-          <div class="player-avatar" style="background:rgba(108,99,255,0.15)">${p.emoji}</div>
-          <div class="player-name">${p.name}</div>
-          ${p.isHost ? '<span class="badge-host">Hôte</span>' : ''}
-        `;
+      grid.innerHTML='';
+      Object.entries(state.players).forEach(([id,p]) => {
+        const chip=document.createElement('div'); chip.className='player-chip';
+        chip.innerHTML=`${av(p,40)}<div class="player-name">${p.name}</div>${p.isHost?'<span class="badge-host">Hôte</span>':''}`;
         grid.appendChild(chip);
       });
     }
-
-    document.getElementById('lobby-count').textContent = `(${count})`;
-
+    document.getElementById('lobby-count').textContent=`(${count})`;
     if (state.isHost) {
-      const btn = document.getElementById('start-btn');
-      const hint = document.getElementById('start-hint');
-      if (btn) btn.disabled = count < 3;
-      if (hint) hint.textContent = count < 3 ? `Il faut au moins 3 joueurs (${count}/3)` : `${count} joueurs prêts — Lance la partie !`;
+      const btn=document.getElementById('start-btn'), hint=document.getElementById('start-hint');
+      if(btn) btn.disabled=count<2;
+      if(hint) hint.textContent=count<2?'Il faut au moins 2 joueurs':`${count} joueurs prêts — Lance !`;
     }
-
-    if (room.status === 'playing') {
-      state.currentQuestion = room.currentQuestion || 0;
-      loadQuestion();
-    }
+    if (room.status==='playing') { state.currentQuestion=room.currentQuestion||0; state.selectedTheme=room.theme; loadQuestion(); }
   });
   state.unsubscribers.push(unsub);
 }
 
-// ── START GAME ──
-window.startGame = async function() {
-  const questions = QUESTIONS.sort(() => Math.random() - 0.5).slice(0, state.totalQuestions);
-  await update(ref(db, `rooms/${state.roomCode}`), {
-    status: 'playing',
-    currentQuestion: 0,
-    questions: questions,
-    votes: {},
-  });
+window.startGame = async () => {
+  const pool = [...QUESTIONS[state.selectedTheme]].sort(()=>Math.random()-0.5).slice(0,state.totalQuestions);
+  await update(ref(db,`rooms/${state.roomCode}`), { status:'playing', currentQuestion:0, questions:pool, votes:{} });
 };
 
-// ── LOAD QUESTION ──
+// LOAD QUESTION
 async function loadQuestion() {
-  state.unsubscribers.forEach(u => u()); state.unsubscribers = [];
-  clearInterval(state.timerInterval);
-  state.submitted = false;
-
-  const snap = await get(ref(db, `rooms/${state.roomCode}`));
+  state.unsubscribers.forEach(u=>u()); state.unsubscribers=[];
+  clearInterval(state.timerInterval); state.submitted=false;
+  const snap=await get(ref(db,`rooms/${state.roomCode}`));
   if (!snap.exists()) return;
-  const room = snap.val();
-  const qIndex = room.currentQuestion;
-  const question = room.questions[qIndex];
-  state.currentQuestion = qIndex;
-
-  // Build ranking list from players
-  const players = Object.entries(room.players || {});
-  state.myRanking = players.map(([id, p]) => ({ id, name: p.name, emoji: p.emoji }));
-  // shuffle
-  state.myRanking.sort(() => Math.random() - 0.5);
-
+  const room=snap.val(), qIndex=room.currentQuestion, question=room.questions[qIndex];
+  state.currentQuestion=qIndex; state.players=room.players||{};
+  state.myRanking=Object.entries(state.players).map(([id,p])=>({id,name:p.name,emoji:p.emoji,photo:p.photo||null})).sort(()=>Math.random()-0.5);
   showScreen('question');
-  document.getElementById('q-counter').textContent = `Question ${qIndex + 1}/${state.totalQuestions}`;
-  document.getElementById('q-text').textContent = `${question.emoji}  ${question.text}`;
-  document.getElementById('q-progress').style.width = `${(qIndex / state.totalQuestions) * 100}%`;
-
-  renderRankList();
-  startTimer(30);
-  listenVotes();
+  document.getElementById('q-counter').textContent=`Tour ${qIndex+1} / ${state.totalQuestions}`;
+  document.getElementById('q-theme-label').textContent=THEME_LABELS[state.selectedTheme]||'';
+  document.getElementById('q-emoji').textContent=question.emoji;
+  document.getElementById('q-text').textContent=question.text;
+  document.getElementById('q-progress').style.width=`${(qIndex/state.totalQuestions)*100}%`;
+  document.getElementById('submit-btn').disabled=false;
+  renderRankList(); startTimer(30); listenVotes();
 }
 
-// ── RENDER RANK LIST (drag & drop) ──
 function renderRankList() {
-  const list = document.getElementById('rank-list');
-  list.innerHTML = '';
-  state.myRanking.forEach((player, i) => {
-    const item = document.createElement('div');
-    item.className = 'rank-item';
-    item.draggable = true;
-    item.dataset.index = i;
-    item.innerHTML = `
-      <div class="rank-number">${i + 1}</div>
-      <div class="rank-emoji">${player.emoji}</div>
-      <div class="rank-name">${player.name}</div>
-      <div class="drag-handle">⠿</div>
-    `;
-
-    // Touch drag
-    let startY = 0, startIndex = 0;
-    item.addEventListener('touchstart', e => {
-      startY = e.touches[0].clientY;
-      startIndex = i;
-      item.classList.add('dragging');
-    }, { passive: true });
-    item.addEventListener('touchmove', e => {
+  const list=document.getElementById('rank-list'); list.innerHTML='';
+  state.myRanking.forEach((player,i) => {
+    const item=document.createElement('div');
+    item.className='rank-item'; item.draggable=true; item.dataset.index=i;
+    item.innerHTML=`<div class="rank-number">${i+1}</div>${av(player,36)}<div class="rank-name">${player.name}</div><div class="drag-handle">⠿⠿</div>`;
+    item.addEventListener('touchstart',()=>item.classList.add('dragging'),{passive:true});
+    item.addEventListener('touchmove',e=>{
       e.preventDefault();
-      const y = e.touches[0].clientY;
-      const items = [...list.querySelectorAll('.rank-item')];
-      items.forEach((el, idx) => {
-        const rect = el.getBoundingClientRect();
-        if (y > rect.top && y < rect.bottom && idx !== parseInt(item.dataset.index)) {
-          const fromIdx = parseInt(item.dataset.index);
-          const toIdx = idx;
-          const moved = state.myRanking.splice(fromIdx, 1)[0];
-          state.myRanking.splice(toIdx, 0, moved);
-          item.dataset.index = toIdx;
-          renderRankList();
+      const y=e.touches[0].clientY;
+      [...list.querySelectorAll('.rank-item')].forEach((el,idx)=>{
+        const r=el.getBoundingClientRect();
+        if(y>r.top&&y<r.bottom&&idx!==parseInt(item.dataset.index)){
+          const from=parseInt(item.dataset.index), moved=state.myRanking.splice(from,1)[0];
+          state.myRanking.splice(idx,0,moved); item.dataset.index=idx; renderRankList();
         }
       });
-    }, { passive: false });
-    item.addEventListener('touchend', () => item.classList.remove('dragging'));
-
-    // Mouse drag
-    item.addEventListener('dragstart', e => { e.dataTransfer.setData('text/plain', i); item.classList.add('dragging'); });
-    item.addEventListener('dragend', () => item.classList.remove('dragging'));
-    item.addEventListener('dragover', e => { e.preventDefault(); item.classList.add('drag-over'); });
-    item.addEventListener('dragleave', () => item.classList.remove('drag-over'));
-    item.addEventListener('drop', e => {
-      e.preventDefault();
-      item.classList.remove('drag-over');
-      const fromIdx = parseInt(e.dataTransfer.getData('text/plain'));
-      const toIdx = parseInt(item.dataset.index);
-      const moved = state.myRanking.splice(fromIdx, 1)[0];
-      state.myRanking.splice(toIdx, 0, moved);
-      renderRankList();
+    },{passive:false});
+    item.addEventListener('touchend',()=>item.classList.remove('dragging'));
+    item.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',String(i));item.classList.add('dragging');});
+    item.addEventListener('dragend',()=>item.classList.remove('dragging'));
+    item.addEventListener('dragover',e=>{e.preventDefault();item.classList.add('drag-over');});
+    item.addEventListener('dragleave',()=>item.classList.remove('drag-over'));
+    item.addEventListener('drop',e=>{
+      e.preventDefault();item.classList.remove('drag-over');
+      const from=parseInt(e.dataTransfer.getData('text/plain')),to=parseInt(item.dataset.index);
+      if(from!==to){const m=state.myRanking.splice(from,1)[0];state.myRanking.splice(to,0,m);renderRankList();}
     });
-
     list.appendChild(item);
   });
 }
 
-// ── TIMER ──
-function startTimer(seconds) {
-  let remaining = seconds;
-  const timerEl = document.getElementById('q-timer');
-  if (timerEl) timerEl.textContent = remaining;
+function startTimer(sec) {
+  let r=sec; const el=document.getElementById('q-timer');
+  if(el){el.textContent=r;el.classList.remove('urgent');}
   clearInterval(state.timerInterval);
-  state.timerInterval = setInterval(() => {
-    remaining--;
-    if (timerEl) {
-      timerEl.textContent = remaining;
-      timerEl.style.borderColor = remaining <= 10 ? 'var(--accent2)' : 'var(--accent)';
-      timerEl.style.color = remaining <= 10 ? 'var(--accent2)' : 'var(--accent)';
-    }
-    if (remaining <= 0) {
-      clearInterval(state.timerInterval);
-      if (!state.submitted) submitRanking();
-    }
-  }, 1000);
+  state.timerInterval=setInterval(()=>{
+    r--;
+    if(el){el.textContent=r;if(r<=10)el.classList.add('urgent');}
+    if(r<=0){clearInterval(state.timerInterval);if(!state.submitted)submitRanking();}
+  },1000);
 }
 
-// ── SUBMIT RANKING ──
-window.submitRanking = async function() {
-  if (state.submitted) return;
-  state.submitted = true;
-  clearInterval(state.timerInterval);
-
-  const ranking = state.myRanking.map(p => p.id);
-  await update(ref(db, `rooms/${state.roomCode}/votes/${state.currentQuestion}`), {
-    [state.playerId]: ranking
-  });
-  await update(ref(db, `rooms/${state.roomCode}/players/${state.playerId}`), { submitted: true });
-
-  showScreen('waiting');
-  renderWaitingPlayers();
+window.submitRanking = async () => {
+  if(state.submitted)return;
+  state.submitted=true; clearInterval(state.timerInterval);
+  document.getElementById('submit-btn').disabled=true;
+  await update(ref(db,`rooms/${state.roomCode}/votes/${state.currentQuestion}`),{[state.playerId]:state.myRanking.map(p=>p.id)});
+  await update(ref(db,`rooms/${state.roomCode}/players/${state.playerId}`),{submitted:true});
+  showScreen('waiting'); renderWaitingPlayers();
 };
 
-// ── LISTEN VOTES ──
 function listenVotes() {
-  const votesRef = ref(db, `rooms/${state.roomCode}/votes/${state.currentQuestion}`);
-  const playersRef = ref(db, `rooms/${state.roomCode}/players`);
-
-  const unsub = onValue(playersRef, async snap => {
-    if (!snap.exists()) return;
-    const players = snap.val();
-    const total = Object.keys(players).length;
-    const submitted = Object.values(players).filter(p => p.submitted).length;
-
-    if (document.getElementById('screen-waiting').classList.contains('active')) {
-      renderWaitingPlayers(players);
-    }
-
-    if (submitted >= total) {
-      // All voted — show results
-      const vSnap = await get(votesRef);
-      const votes = vSnap.exists() ? vSnap.val() : {};
-      showResults(votes, players);
+  const unsub=onValue(ref(db,`rooms/${state.roomCode}/players`),async snap=>{
+    if(!snap.exists())return;
+    const players=snap.val(), total=Object.keys(players).length, voted=Object.values(players).filter(p=>p.submitted).length;
+    if(document.getElementById('screen-waiting').classList.contains('active'))renderWaitingPlayers(players);
+    if(voted>=total){
+      const vSnap=await get(ref(db,`rooms/${state.roomCode}/votes/${state.currentQuestion}`));
+      unsub(); showResults(vSnap.exists()?vSnap.val():{},players);
     }
   });
   state.unsubscribers.push(unsub);
 }
 
 function renderWaitingPlayers(players) {
-  players = players || state.players;
-  const grid = document.getElementById('waiting-players');
-  if (!grid) return;
-  grid.innerHTML = '';
-  Object.entries(players).forEach(([id, p]) => {
-    const chip = document.createElement('div');
-    chip.className = 'player-chip';
-    chip.innerHTML = `
-      <div class="player-avatar">${p.emoji}</div>
-      <div class="player-name">${p.name}</div>
-      <div class="player-badge" style="color:${p.submitted ? 'var(--accent3)' : 'var(--muted)'}">${p.submitted ? '✓ Voté' : '...'}</div>
-    `;
+  players=players||state.players;
+  const grid=document.getElementById('waiting-players'); if(!grid)return;
+  grid.innerHTML='';
+  Object.entries(players).forEach(([id,p])=>{
+    const chip=document.createElement('div'); chip.className='player-chip';
+    chip.innerHTML=`${av(p,40)}<div class="player-name">${p.name}</div><span class="${p.submitted?'badge-voted':'badge-pending'}">${p.submitted?'✓':'...'}</span>`;
     grid.appendChild(chip);
   });
 }
 
-// ── SHOW RESULTS ──
-async function showResults(votes, players) {
-  state.unsubscribers.forEach(u => u()); state.unsubscribers = [];
-  const snap = await get(ref(db, `rooms/${state.roomCode}`));
-  if (!snap.exists()) return;
-  const room = snap.val();
-  const question = room.questions[state.currentQuestion];
-
-  // Compute scores: for each vote, player ranked #1 gets N pts, #2 gets N-1, etc.
-  const playerIds = Object.keys(players);
-  const N = playerIds.length;
-  const scores = {};
-  playerIds.forEach(id => scores[id] = 0);
-
-  Object.values(votes).forEach(ranking => {
-    ranking.forEach((playerId, position) => {
-      if (scores[playerId] !== undefined) {
-        scores[playerId] += (N - position);
-      }
-    });
-  });
-
-  // Sort players by score
-  const sorted = playerIds.sort((a, b) => scores[b] - scores[a]);
-
+async function showResults(votes,players) {
+  state.unsubscribers.forEach(u=>u()); state.unsubscribers=[];
+  const snap=await get(ref(db,`rooms/${state.roomCode}`)); if(!snap.exists())return;
+  const room=snap.val(), question=room.questions[state.currentQuestion];
+  const playerIds=Object.keys(players), N=playerIds.length, scores={};
+  playerIds.forEach(id=>scores[id]=0);
+  Object.values(votes).forEach(ranking=>ranking.forEach((pid,pos)=>{if(scores[pid]!==undefined)scores[pid]+=(N-pos);}));
+  const sorted=[...playerIds].sort((a,b)=>scores[b]-scores[a]);
+  const medals=['🥇','🥈','🥉'], maxScore=scores[sorted[0]]||1;
   showScreen('results');
-  document.getElementById('results-counter').textContent = `Résultats — Question ${state.currentQuestion + 1}/${state.totalQuestions}`;
-  document.getElementById('results-question').textContent = `${question.emoji}  ${question.text}`;
-
-  const list = document.getElementById('results-list');
-  list.innerHTML = '';
-  const medals = ['🥇', '🥈', '🥉'];
-  sorted.forEach((id, i) => {
-    const p = players[id];
-    const row = document.createElement('div');
-    row.className = 'result-row';
-    const maxScore = scores[sorted[0]] || 1;
-    const pct = Math.round((scores[id] / maxScore) * 100);
-    row.innerHTML = `
-      <div class="result-rank">${medals[i] || (i + 1)}</div>
-      <div class="result-emoji">${p.emoji}</div>
-      <div style="flex:1">
-        <div class="result-name">${p.name}</div>
-        <div class="vote-bar-wrap">
-          <div class="vote-bar-bg"><div class="vote-bar-fill" style="width:0%" data-pct="${pct}"></div></div>
-        </div>
-      </div>
-      <div class="result-votes">${scores[id]} pts</div>
-    `;
+  document.getElementById('results-counter').textContent=`Résultats · Tour ${state.currentQuestion+1}/${state.totalQuestions}`;
+  document.getElementById('results-question').textContent=`${question.emoji}  ${question.text}`;
+  const list=document.getElementById('results-list'); list.innerHTML='';
+  sorted.forEach((id,i)=>{
+    const p=players[id], pct=Math.round((scores[id]/maxScore)*100);
+    const row=document.createElement('div'); row.className='result-row';
+    row.innerHTML=`<div class="result-rank">${medals[i]||(i+1)}</div>${av(p,40)}<div class="result-info"><div class="result-name">${p.name}</div><div class="vote-bar-bg"><div class="vote-bar-fill" data-pct="${pct}"></div></div></div><div class="result-pts">${scores[id]}</div>`;
     list.appendChild(row);
   });
-
-  // Animate bars
-  setTimeout(() => {
-    document.querySelectorAll('.vote-bar-fill').forEach(bar => {
-      bar.style.width = bar.dataset.pct + '%';
-    });
-  }, 200);
-
-  // Update cumulative scores
-  sorted.forEach((id, i) => {
-    if (!state.scores[id]) state.scores[id] = 0;
-    state.scores[id] += scores[id];
-  });
-
-  // Save scores to Firebase
-  if (state.isHost) {
-    await update(ref(db, `rooms/${state.roomCode}`), { scores: state.scores });
-  }
-
-  // Show next button
-  const isLast = state.currentQuestion >= state.totalQuestions - 1;
-  if (state.isHost) {
-    document.getElementById('results-host-next').style.display = 'block';
-    document.getElementById('results-guest-next').style.display = 'none';
-    document.querySelector('#results-host-next .btn').textContent = isLast ? 'Voir les scores finaux 🏆' : 'Question suivante →';
+  setTimeout(()=>{document.querySelectorAll('.vote-bar-fill').forEach(b=>{b.style.width=b.dataset.pct+'%';});},150);
+  sorted.forEach(id=>{if(!state.scores[id])state.scores[id]=0;state.scores[id]+=scores[id];});
+  if(state.isHost)await update(ref(db,`rooms/${state.roomCode}`),{scores:state.scores});
+  const isLast=state.currentQuestion>=state.totalQuestions-1;
+  if(state.isHost){
+    document.getElementById('results-host-next').style.display='block';
+    document.getElementById('results-guest-next').style.display='none';
+    document.getElementById('next-btn').textContent=isLast?'Voir le classement 🏆':'Tour suivant →';
   } else {
-    document.getElementById('results-host-next').style.display = 'none';
-    document.getElementById('results-guest-next').style.display = 'block';
-    // Listen for host to advance
-    const roomRef = ref(db, `rooms/${state.roomCode}`);
-    const unsub = onValue(roomRef, snap => {
-      if (!snap.exists()) return;
-      const r = snap.val();
-      if (r.status === 'final') { showFinalScores(r); unsub(); }
-      else if (r.currentQuestion > state.currentQuestion) {
-        state.currentQuestion = r.currentQuestion;
-        unsub();
-        loadQuestion();
-      }
+    document.getElementById('results-host-next').style.display='none';
+    document.getElementById('results-guest-next').style.display='block';
+    const unsub=onValue(ref(db,`rooms/${state.roomCode}`),snap=>{
+      if(!snap.exists())return;
+      const r=snap.val();
+      if(r.status==='final'){unsub();showFinal();}
+      else if(r.currentQuestion>state.currentQuestion){unsub();state.currentQuestion=r.currentQuestion;loadQuestion();}
     });
     state.unsubscribers.push(unsub);
   }
 }
 
-// ── NEXT QUESTION ──
-window.nextQuestion = async function() {
-  const isLast = state.currentQuestion >= state.totalQuestions - 1;
-  // Reset submitted flags
-  const updates = {};
-  Object.keys(state.players).forEach(id => { updates[`players/${id}/submitted`] = false; });
-
-  if (isLast) {
-    const snap = await get(ref(db, `rooms/${state.roomCode}`));
-    const room = snap.val();
-    await update(ref(db, `rooms/${state.roomCode}`), { ...updates, status: 'final', scores: state.scores });
-    showFinalScores(room);
-  } else {
-    await update(ref(db, `rooms/${state.roomCode}`), { ...updates, currentQuestion: state.currentQuestion + 1 });
-    state.currentQuestion++;
-    loadQuestion();
-  }
+window.nextQuestion = async () => {
+  const isLast=state.currentQuestion>=state.totalQuestions-1;
+  const updates={};
+  Object.keys(state.players).forEach(id=>{updates[`players/${id}/submitted`]=false;});
+  if(isLast){await update(ref(db,`rooms/${state.roomCode}`),{...updates,status:'final',scores:state.scores});showFinal();}
+  else{await update(ref(db,`rooms/${state.roomCode}`),{...updates,currentQuestion:state.currentQuestion+1});state.currentQuestion++;loadQuestion();}
 };
 
-// ── FINAL SCORES ──
-async function showFinalScores(room) {
-  state.unsubscribers.forEach(u => u()); state.unsubscribers = [];
-  const snap = await get(ref(db, `rooms/${state.roomCode}`));
-  if (!snap.exists()) return;
-  const r = snap.val();
-  const scores = r.scores || state.scores;
-  const players = r.players || state.players;
-
-  const sorted = Object.keys(scores).sort((a, b) => scores[b] - scores[a]);
-  const winner = players[sorted[0]];
-
+async function showFinal() {
+  state.unsubscribers.forEach(u=>u()); state.unsubscribers=[];
+  const snap=await get(ref(db,`rooms/${state.roomCode}`)); if(!snap.exists())return;
+  const r=snap.val(), scores=r.scores||state.scores, players=r.players||state.players;
+  const sorted=Object.keys(scores).sort((a,b)=>scores[b]-scores[a]), winner=players[sorted[0]];
+  const medals=['🥇','🥈','🥉'];
   showScreen('final');
-  document.getElementById('final-winner').textContent = `${winner.emoji} ${winner.name}`;
-
-  const container = document.getElementById('final-scores');
-  container.innerHTML = '';
-  const medals = ['🥇', '🥈', '🥉'];
-  sorted.forEach((id, i) => {
-    const p = players[id];
-    const chip = document.createElement('div');
-    chip.className = 'score-chip';
-    chip.innerHTML = `
-      <div style="display:flex;align-items:center;gap:10px">
-        <span style="font-size:20px">${medals[i] || (i+1)}</span>
-        <span style="font-size:18px">${p.emoji}</span>
-        <span style="font-weight:600">${p.name}</span>
-      </div>
-      <div class="score-value">${scores[id] || 0}</div>
-    `;
-    container.appendChild(chip);
+  document.getElementById('final-winner-avatar').innerHTML=av(winner,72);
+  document.getElementById('final-winner-name').textContent=winner.name;
+  const container=document.getElementById('final-scores'); container.innerHTML='';
+  sorted.forEach((id,i)=>{
+    const p=players[id]; const row=document.createElement('div'); row.className='score-row';
+    row.innerHTML=`<div class="score-pos">${medals[i]||(i+1)}</div>${av(p,36)}<div class="score-name">${p.name}</div><div class="score-pts">${scores[id]||0} pts</div>`;
+    container.appendChild(row);
   });
 }
 
-// ── PLAY AGAIN ──
-window.playAgain = async function() {
-  if (state.isHost) {
-    await remove(ref(db, `rooms/${state.roomCode}`));
-  }
+window.playAgain = async () => {
+  if(state.isHost)await remove(ref(db,`rooms/${state.roomCode}`));
+  state={roomCode:null,playerId:null,playerName:null,playerPhoto:null,isHost:false,players:{},currentQuestion:0,totalQuestions:10,selectedTheme:null,myRanking:[],scores:{},submitted:false,timerInterval:null,unsubscribers:[]};
   showScreen('home');
 };
 </script>
