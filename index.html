@@ -7,161 +7,156 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #08080e;
-  --surface: #0f0f1a;
-  --surface2: #17172a;
-  --border: rgba(255,255,255,0.07);
-  --border2: rgba(255,255,255,0.14);
-  --accent: #7c6fff;
-  --accent2: #ff5f7e;
-  --accent3: #00e5a0;
-  --text: #eeeeff;
-  --muted: rgba(210,210,255,0.42);
-  --radius: 18px;
+  --bg:#08080e; --surface:#0f0f1a; --surface2:#17172a;
+  --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.14);
+  --accent:#7c6fff; --accent2:#ff5f7e; --accent3:#00e5a0;
+  --text:#eeeeff; --muted:rgba(210,210,255,0.42); --radius:18px;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-html, body { height: 100%; overflow-x: hidden; }
-body {
-  background: var(--bg); color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  min-height: 100dvh; display: flex; flex-direction: column; align-items: center;
-}
-body::before {
-  content: ''; position: fixed; inset: 0;
-  background-image: linear-gradient(rgba(124,111,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(124,111,255,0.03) 1px, transparent 1px);
-  background-size: 40px 40px; pointer-events: none; z-index: 0;
-}
-.orb { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(90px); }
-.orb-1 { width: 400px; height: 400px; background: rgba(124,111,255,0.12); top: -150px; left: -150px; }
-.orb-2 { width: 300px; height: 300px; background: rgba(255,95,126,0.08); bottom: -100px; right: -100px; }
-.app { width: 100%; max-width: 430px; min-height: 100dvh; display: flex; flex-direction: column; position: relative; z-index: 1; padding: 0 22px 48px; }
-.screen { display: none; flex-direction: column; flex: 1; animation: fadeUp 0.28s ease; }
-.screen.active { display: flex; }
-@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;overflow-x:hidden;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100dvh;display:flex;flex-direction:column;align-items:center;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(124,111,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(124,111,255,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+.orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(90px);}
+.orb-1{width:400px;height:400px;background:rgba(124,111,255,0.12);top:-150px;left:-150px;}
+.orb-2{width:300px;height:300px;background:rgba(255,95,126,0.08);bottom:-100px;right:-100px;}
+.app{width:100%;max-width:430px;min-height:100dvh;display:flex;flex-direction:column;position:relative;z-index:1;padding:0 22px 48px;}
+.screen{display:none;flex-direction:column;flex:1;animation:fadeUp 0.28s ease;}
+.screen.active{display:flex;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
 
 /* LOGO */
-.logo { font-family:'Syne',sans-serif; font-size:52px; font-weight:900; letter-spacing:-3px; background:linear-gradient(135deg,#fff 0%,var(--accent) 60%,var(--accent2) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; display:inline-block; margin-top:60px; margin-bottom:4px; }
-.logo-sm { font-family:'Syne',sans-serif; font-size:26px; font-weight:900; letter-spacing:-1px; background:linear-gradient(135deg,#fff,var(--accent)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; display:inline-block; }
-.tagline { color:var(--muted); font-size:15px; margin-bottom:32px; font-style:italic; }
+.logo{font-family:'Syne',sans-serif;font-size:52px;font-weight:900;letter-spacing:-3px;background:linear-gradient(135deg,#fff 0%,var(--accent) 60%,var(--accent2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:inline-block;margin-top:56px;margin-bottom:4px;}
+.logo-sm{font-family:'Syne',sans-serif;font-size:26px;font-weight:900;letter-spacing:-1px;background:linear-gradient(135deg,#fff,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:inline-block;}
+.tagline{color:var(--muted);font-size:15px;margin-bottom:28px;font-style:italic;}
 
 /* BUTTONS */
-.btn { width:100%; padding:17px; border-radius:var(--radius); font-family:'DM Sans',sans-serif; font-size:16px; font-weight:600; cursor:pointer; border:none; transition:transform 0.12s,box-shadow 0.12s; }
-.btn:active { transform:scale(0.975); }
-.btn:disabled { opacity:0.35; cursor:not-allowed; transform:none; }
-.btn-primary { background:linear-gradient(135deg,var(--accent),#9d8fff); color:#fff; box-shadow:0 4px 24px rgba(124,111,255,0.3); }
-.btn-secondary { background:var(--surface2); color:var(--text); border:1.5px solid var(--border2); }
-.btn-success { background:linear-gradient(135deg,var(--accent3),#00c87a); color:#08080e; font-weight:700; box-shadow:0 4px 20px rgba(0,229,160,0.2); }
-.btn-row { display:flex; gap:12px; }
-.btn-row .btn { flex:1; }
+.btn{width:100%;padding:17px;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;cursor:pointer;border:none;transition:transform 0.12s,box-shadow 0.12s;}
+.btn:active{transform:scale(0.975);}
+.btn:disabled{opacity:0.35;cursor:not-allowed;transform:none;}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#9d8fff);color:#fff;box-shadow:0 4px 24px rgba(124,111,255,0.3);}
+.btn-secondary{background:var(--surface2);color:var(--text);border:1.5px solid var(--border2);}
+.btn-success{background:linear-gradient(135deg,var(--accent3),#00c87a);color:#08080e;font-weight:700;box-shadow:0 4px 20px rgba(0,229,160,0.2);}
+.btn-row{display:flex;gap:12px;}
+.btn-row .btn{flex:1;}
 
 /* INPUTS */
-.input-label { font-size:11px; color:var(--muted); margin-bottom:8px; display:block; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; }
-input[type="text"] { width:100%; background:var(--surface); border:1.5px solid var(--border2); border-radius:14px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:16px; padding:16px 18px; outline:none; transition:border-color 0.2s,box-shadow 0.2s; }
-input:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(124,111,255,0.15); }
-input::placeholder { color:var(--muted); }
+.input-label{font-size:11px;color:var(--muted);margin-bottom:8px;display:block;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;}
+input[type="text"]{width:100%;background:var(--surface);border:1.5px solid var(--border2);border-radius:14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;padding:16px 18px;outline:none;transition:border-color 0.2s,box-shadow 0.2s;}
+input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,111,255,0.15);}
+input::placeholder{color:var(--muted);}
+
+/* HOME STATS — design original */
+.home-stats{display:flex;gap:10px;margin-bottom:28px;}
+.stat-chip{flex:1;background:var(--surface);border:1.5px solid var(--border2);border-radius:14px;padding:14px 10px;text-align:center;}
+.stat-num{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.stat-label{font-size:11px;color:var(--muted);margin-top:2px;}
+
+/* SESSION BANNER */
+.session-banner{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(124,111,255,0.1),rgba(0,229,160,0.05));border:1.5px solid rgba(124,111,255,0.2);border-radius:16px;padding:14px 16px;margin-bottom:20px;cursor:pointer;transition:border-color 0.2s;}
+.session-banner:active{border-color:var(--accent);}
+.session-banner-text{flex:1;}
+.session-banner-name{font-weight:700;font-size:15px;}
+.session-banner-sub{font-size:12px;color:var(--muted);margin-top:2px;}
+.session-change{font-size:12px;color:var(--accent);font-weight:600;}
 
 /* PHOTO */
-.photo-capture-wrap { display:flex; flex-direction:column; align-items:center; background:var(--surface); border:2px dashed var(--border2); border-radius:var(--radius); padding:24px 20px; margin-bottom:20px; cursor:pointer; transition:border-color 0.2s; }
-.photo-capture-wrap:active { border-color:var(--accent); }
-.photo-preview { width:80px; height:80px; border-radius:50%; object-fit:cover; border:3px solid var(--accent); box-shadow:0 0 20px rgba(124,111,255,0.3); display:none; margin-bottom:10px; }
-.photo-placeholder { font-size:40px; margin-bottom:8px; }
-.photo-hint { color:var(--muted); font-size:14px; text-align:center; }
+.photo-capture-wrap{display:flex;flex-direction:column;align-items:center;background:var(--surface);border:2px dashed var(--border2);border-radius:var(--radius);padding:24px 20px;margin-bottom:16px;cursor:pointer;transition:border-color 0.2s;}
+.photo-capture-wrap:active{border-color:var(--accent);}
+.photo-preview{width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--accent);box-shadow:0 0 20px rgba(124,111,255,0.3);display:none;margin-bottom:10px;}
+.photo-placeholder{font-size:40px;margin-bottom:8px;}
+.photo-hint{color:var(--muted);font-size:14px;text-align:center;}
 
 /* THEMES */
-.themes-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:24px; }
-.theme-card { background:var(--surface); border:2px solid var(--border2); border-radius:16px; padding:20px 16px; cursor:pointer; text-align:center; transition:border-color 0.2s,background 0.2s,transform 0.12s; display:flex; flex-direction:column; align-items:center; gap:8px; }
-.theme-card:active { transform:scale(0.96); }
-.theme-card.selected { border-color:var(--accent); background:rgba(124,111,255,0.1); }
-.theme-emoji { font-size:32px; }
-.theme-name { font-family:'Syne',sans-serif; font-size:15px; font-weight:700; }
-.theme-count { font-size:11px; color:var(--muted); }
+.themes-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
+.theme-card{background:var(--surface);border:2px solid var(--border2);border-radius:16px;padding:20px 12px;cursor:pointer;text-align:center;transition:border-color 0.2s,background 0.2s,transform 0.12s;display:flex;flex-direction:column;align-items:center;gap:6px;}
+.theme-card:active{transform:scale(0.96);}
+.theme-card.selected{border-color:var(--accent);background:rgba(124,111,255,0.1);}
+.theme-emoji{font-size:30px;}
+.theme-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;}
+.theme-count{font-size:11px;color:var(--muted);}
 
 /* ROOM CODE */
-.room-code-display { background:linear-gradient(135deg,rgba(124,111,255,0.08),rgba(255,95,126,0.05)); border:1.5px solid rgba(124,111,255,0.25); border-radius:var(--radius); padding:24px; text-align:center; margin-bottom:24px; }
-.room-code-label { font-size:11px; color:var(--muted); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:8px; font-weight:600; }
-.room-code-value { font-family:'Syne',sans-serif; font-size:50px; font-weight:900; letter-spacing:10px; background:linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-.room-code-hint { color:var(--muted); font-size:13px; margin-top:6px; }
+.room-code-display{background:linear-gradient(135deg,rgba(124,111,255,0.08),rgba(255,95,126,0.05));border:1.5px solid rgba(124,111,255,0.25);border-radius:var(--radius);padding:24px;text-align:center;margin-bottom:24px;}
+.room-code-label{font-size:11px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;font-weight:600;}
+.room-code-value{font-family:'Syne',sans-serif;font-size:50px;font-weight:900;letter-spacing:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.room-code-hint{color:var(--muted);font-size:13px;margin-top:6px;}
 
 /* PLAYERS */
-.players-grid { display:flex; flex-direction:column; gap:10px; margin-bottom:20px; }
-.player-chip { display:flex; align-items:center; gap:14px; background:var(--surface); border:1.5px solid var(--border); border-radius:14px; padding:12px 16px; animation:slideIn 0.25s ease; }
-@keyframes slideIn { from{opacity:0;transform:translateX(-10px);} to{opacity:1;transform:translateX(0);} }
-.player-name { font-weight:600; font-size:15px; flex:1; }
-.badge-host { background:rgba(124,111,255,0.15); color:var(--accent); padding:3px 9px; border-radius:20px; font-size:11px; font-weight:700; border:1px solid rgba(124,111,255,0.3); }
-.badge-voted { color:var(--accent3); font-size:13px; font-weight:700; }
-.badge-pending { color:var(--muted); font-size:13px; }
+.players-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+.player-chip{display:flex;align-items:center;gap:14px;background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:12px 16px;animation:slideIn 0.25s ease;}
+@keyframes slideIn{from{opacity:0;transform:translateX(-10px);}to{opacity:1;transform:translateX(0);}}
+.player-name{font-weight:600;font-size:15px;flex:1;}
+.badge-host{background:rgba(124,111,255,0.15);color:var(--accent);padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;border:1px solid rgba(124,111,255,0.3);}
+.badge-voted{color:var(--accent3);font-size:13px;font-weight:700;}
+.badge-pending{color:var(--muted);font-size:13px;}
 
 /* QUESTION */
-.question-header { display:flex; align-items:center; justify-content:space-between; margin-top:24px; margin-bottom:16px; }
-.q-meta { display:flex; flex-direction:column; gap:3px; }
-.q-counter { font-size:12px; color:var(--muted); font-weight:600; letter-spacing:0.8px; text-transform:uppercase; }
-.q-theme-label { font-size:12px; color:var(--accent); font-weight:600; }
-.timer-circle { width:48px; height:48px; border-radius:50%; background:var(--surface2); border:2.5px solid var(--accent); display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-size:18px; font-weight:800; color:var(--accent); transition:border-color 0.3s,color 0.3s; }
-.timer-circle.urgent { border-color:var(--accent2); color:var(--accent2); animation:timerPulse 0.5s ease infinite alternate; }
-@keyframes timerPulse { from{transform:scale(1);} to{transform:scale(1.1);} }
-.progress-bar { height:3px; background:var(--border2); border-radius:4px; margin-bottom:20px; overflow:hidden; }
-.progress-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--accent2)); border-radius:4px; transition:width 0.5s ease; }
-.question-emoji { font-size:42px; text-align:center; margin-bottom:10px; display:block; animation:emojiPop 0.35s cubic-bezier(0.34,1.56,0.64,1); }
-@keyframes emojiPop { from{transform:scale(0.4);opacity:0;} to{transform:scale(1);opacity:1;} }
-.question-text { font-family:'Syne',sans-serif; font-size:22px; font-weight:800; line-height:1.25; margin-bottom:24px; letter-spacing:-0.3px; text-align:center; }
+.question-header{display:flex;align-items:center;justify-content:space-between;margin-top:20px;margin-bottom:14px;}
+.q-meta{display:flex;flex-direction:column;gap:3px;}
+.q-counter{font-size:12px;color:var(--muted);font-weight:600;letter-spacing:0.8px;text-transform:uppercase;}
+.q-theme-label{font-size:12px;color:var(--accent);font-weight:600;}
+.timer-circle{width:48px;height:48px;border-radius:50%;background:var(--surface2);border:2.5px solid var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--accent);transition:border-color 0.3s,color 0.3s;}
+.timer-circle.urgent{border-color:var(--accent2);color:var(--accent2);animation:timerPulse 0.5s ease infinite alternate;}
+@keyframes timerPulse{from{transform:scale(1);}to{transform:scale(1.1);}}
+.progress-bar{height:3px;background:var(--border2);border-radius:4px;margin-bottom:18px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px;transition:width 0.5s ease;}
+.question-emoji{font-size:40px;text-align:center;margin-bottom:8px;display:block;animation:emojiPop 0.35s cubic-bezier(0.34,1.56,0.64,1);}
+@keyframes emojiPop{from{transform:scale(0.4);opacity:0;}to{transform:scale(1);opacity:1;}}
+.question-text{font-family:'Syne',sans-serif;font-size:21px;font-weight:800;line-height:1.25;margin-bottom:20px;letter-spacing:-0.3px;text-align:center;}
 
 /* RANK LIST */
-.rank-list { display:flex; flex-direction:column; gap:9px; margin-bottom:20px; }
-.rank-item { display:flex; align-items:center; gap:12px; background:var(--surface); border:1.5px solid var(--border2); border-radius:14px; padding:12px 14px; cursor:grab; transition:border-color 0.2s,transform 0.15s,box-shadow 0.2s; user-select:none; touch-action:none; }
-.rank-item.dragging { border-color:var(--accent); box-shadow:0 10px 32px rgba(124,111,255,0.25); transform:scale(1.03); z-index:10; position:relative; background:var(--surface2); }
-.rank-item.drag-over { border-color:var(--accent2); background:rgba(255,95,126,0.05); }
-.rank-number { width:28px; height:28px; border-radius:50%; background:var(--accent); display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-size:12px; font-weight:800; color:#fff; flex-shrink:0; }
-.rank-item:nth-child(1) .rank-number { background:linear-gradient(135deg,#FFD700,#FFA500); color:#000; }
-.rank-item:nth-child(2) .rank-number { background:linear-gradient(135deg,#e0e0e0,#aaa); color:#000; }
-.rank-item:nth-child(3) .rank-number { background:linear-gradient(135deg,#CD7F32,#a0522d); color:#fff; }
-.rank-name { font-weight:600; font-size:15px; flex:1; }
-.drag-handle { color:var(--muted); font-size:14px; }
+.rank-list{display:flex;flex-direction:column;gap:9px;margin-bottom:18px;}
+.rank-item{display:flex;align-items:center;gap:12px;background:var(--surface);border:1.5px solid var(--border2);border-radius:14px;padding:12px 14px;cursor:grab;transition:border-color 0.2s,transform 0.15s,box-shadow 0.2s;user-select:none;touch-action:none;}
+.rank-item.dragging{border-color:var(--accent);box-shadow:0 10px 32px rgba(124,111,255,0.25);transform:scale(1.03);z-index:10;position:relative;background:var(--surface2);}
+.rank-item.drag-over{border-color:var(--accent2);background:rgba(255,95,126,0.05);}
+.rank-number{width:28px;height:28px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:12px;font-weight:800;color:#fff;flex-shrink:0;}
+.rank-item:nth-child(1) .rank-number{background:linear-gradient(135deg,#FFD700,#FFA500);color:#000;}
+.rank-item:nth-child(2) .rank-number{background:linear-gradient(135deg,#e0e0e0,#aaa);color:#000;}
+.rank-item:nth-child(3) .rank-number{background:linear-gradient(135deg,#CD7F32,#a0522d);color:#fff;}
+.rank-name{font-weight:600;font-size:15px;flex:1;}
+.drag-handle{color:var(--muted);font-size:14px;}
 
 /* WAITING */
-.waiting-wrap { display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; }
-.waiting-pulse { width:88px; height:88px; border-radius:50%; background:linear-gradient(135deg,rgba(124,111,255,0.15),rgba(255,95,126,0.1)); border:1.5px solid rgba(124,111,255,0.2); display:flex; align-items:center; justify-content:center; font-size:38px; margin-bottom:20px; animation:pulse 2.5s ease-in-out infinite; }
-@keyframes pulse { 0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(124,111,255,0.2);} 50%{transform:scale(1.06);box-shadow:0 0 0 18px rgba(124,111,255,0);} }
+.waiting-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;}
+.waiting-pulse{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,rgba(124,111,255,0.15),rgba(255,95,126,0.1));border:1.5px solid rgba(124,111,255,0.2);display:flex;align-items:center;justify-content:center;font-size:38px;margin-bottom:20px;animation:pulse 2.5s ease-in-out infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(124,111,255,0.2);}50%{transform:scale(1.06);box-shadow:0 0 0 18px rgba(124,111,255,0);}}
 
 /* RESULTS */
-.result-row { display:flex; align-items:center; gap:12px; padding:14px 16px; border-radius:14px; background:var(--surface); border:1.5px solid var(--border); animation:revealRow 0.4s ease forwards; opacity:0; margin-bottom:10px; }
+.result-row{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;background:var(--surface);border:1.5px solid var(--border);animation:revealRow 0.4s ease forwards;opacity:0;margin-bottom:10px;}
 .result-row:nth-child(1){animation-delay:0.08s;border-color:rgba(255,215,0,0.25);background:rgba(255,215,0,0.04);}
 .result-row:nth-child(2){animation-delay:0.2s;}
 .result-row:nth-child(3){animation-delay:0.32s;}
 .result-row:nth-child(n+4){animation-delay:0.44s;}
-@keyframes revealRow { from{opacity:0;transform:translateX(-16px);} to{opacity:1;transform:translateX(0);} }
-.result-rank { font-family:'Syne',sans-serif; font-size:22px; font-weight:900; width:30px; text-align:center; }
-.result-info { flex:1; }
-.result-name { font-weight:700; font-size:15px; margin-bottom:4px; }
-.vote-bar-bg { height:3px; background:var(--border2); border-radius:4px; overflow:hidden; }
-.vote-bar-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--accent2)); border-radius:4px; width:0%; transition:width 1.2s cubic-bezier(0.34,1.2,0.64,1); }
-.result-pts { font-family:'Syne',sans-serif; font-size:20px; font-weight:800; color:var(--accent); }
+@keyframes revealRow{from{opacity:0;transform:translateX(-16px);}to{opacity:1;transform:translateX(0);}}
+.result-rank{font-family:'Syne',sans-serif;font-size:22px;font-weight:900;width:30px;text-align:center;}
+.result-info{flex:1;}
+.result-name{font-weight:700;font-size:15px;margin-bottom:4px;}
+.vote-bar-bg{height:3px;background:var(--border2);border-radius:4px;overflow:hidden;}
+.vote-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px;width:0%;transition:width 1.2s cubic-bezier(0.34,1.2,0.64,1);}
+.result-pts{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--accent);}
 
 /* FINAL */
-.final-winner-wrap { background:linear-gradient(135deg,rgba(124,111,255,0.1),rgba(255,95,126,0.08)); border:1.5px solid rgba(124,111,255,0.2); border-radius:var(--radius); padding:28px 20px; text-align:center; margin-bottom:24px; }
-.crown { font-size:50px; display:block; margin-bottom:10px; animation:crownBounce 0.7s cubic-bezier(0.34,1.56,0.64,1); }
-@keyframes crownBounce { from{transform:scale(0.3) rotate(-20deg);opacity:0;} to{transform:scale(1) rotate(0deg);opacity:1;} }
-.final-winner-name { font-family:'Syne',sans-serif; font-size:28px; font-weight:900; background:linear-gradient(135deg,#fff,var(--accent)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-.final-winner-sub { color:var(--muted); font-size:14px; margin-top:4px; }
-.score-row { display:flex; align-items:center; gap:12px; background:var(--surface); border:1.5px solid var(--border); border-radius:14px; padding:12px 16px; margin-bottom:10px; }
-.score-row:first-child { border-color:rgba(255,215,0,0.3); background:rgba(255,215,0,0.03); }
-.score-pos { font-size:20px; width:28px; text-align:center; }
-.score-name { font-weight:600; font-size:15px; flex:1; }
-.score-pts { font-family:'Syne',sans-serif; font-size:20px; font-weight:800; color:var(--accent); }
+.final-winner-wrap{background:linear-gradient(135deg,rgba(124,111,255,0.1),rgba(255,95,126,0.08));border:1.5px solid rgba(124,111,255,0.2);border-radius:var(--radius);padding:28px 20px;text-align:center;margin-bottom:24px;}
+.crown{font-size:50px;display:block;margin-bottom:10px;animation:crownBounce 0.7s cubic-bezier(0.34,1.56,0.64,1);}
+@keyframes crownBounce{from{transform:scale(0.3) rotate(-20deg);opacity:0;}to{transform:scale(1) rotate(0deg);opacity:1;}}
+.final-winner-name{font-family:'Syne',sans-serif;font-size:28px;font-weight:900;background:linear-gradient(135deg,#fff,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.final-winner-sub{color:var(--muted);font-size:14px;margin-top:4px;}
+.score-row{display:flex;align-items:center;gap:12px;background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:12px 16px;margin-bottom:10px;}
+.score-row:first-child{border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.03);}
+.score-pos{font-size:20px;width:28px;text-align:center;}
+.score-name{font-weight:600;font-size:15px;flex:1;}
+.score-pts{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--accent);}
 
 /* MISC */
-.section-title { font-family:'Syne',sans-serif; font-size:20px; font-weight:800; margin-bottom:14px; letter-spacing:-0.3px; }
-.spacer { flex:1; }
-.mt-8{margin-top:8px;} .mt-12{margin-top:12px;} .mt-16{margin-top:16px;} .mt-20{margin-top:20px;} .mt-24{margin-top:24px;}
-.mb-8{margin-bottom:8px;} .mb-16{margin-bottom:16px;}
+.section-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:14px;letter-spacing:-0.3px;}
+.spacer{flex:1;}
+.mt-8{margin-top:8px;}.mt-12{margin-top:12px;}.mt-16{margin-top:16px;}.mt-20{margin-top:20px;}.mt-24{margin-top:24px;}
+.mb-8{margin-bottom:8px;}.mb-16{margin-bottom:16px;}
 .text-center{text-align:center;}
 .text-muted{color:var(--muted);font-size:14px;}
-.home-stats { display:flex; gap:10px; margin-bottom:28px; }
-.stat-chip { flex:1; background:var(--surface); border:1.5px solid var(--border2); border-radius:14px; padding:12px 8px; text-align:center; }
-.stat-num { font-family:'Syne',sans-serif; font-size:20px; font-weight:800; background:linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-.stat-label { font-size:11px; color:var(--muted); margin-top:2px; }
-.code-input { font-family:'Syne',sans-serif !important; font-size:38px !important; font-weight:900 !important; letter-spacing:10px !important; text-align:center !important; padding:20px !important; }
-.toast { position:fixed; bottom:36px; left:50%; transform:translateX(-50%) translateY(120px); background:var(--text); color:var(--bg); padding:12px 24px; border-radius:100px; font-weight:700; font-size:14px; transition:transform 0.3s cubic-bezier(0.34,1.4,0.64,1); z-index:999; white-space:nowrap; box-shadow:0 8px 32px rgba(0,0,0,0.4); }
-.toast.show { transform:translateX(-50%) translateY(0); }
+.code-input{font-family:'Syne',sans-serif !important;font-size:38px !important;font-weight:900 !important;letter-spacing:10px !important;text-align:center !important;padding:20px !important;}
+.toast{position:fixed;bottom:36px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--text);color:var(--bg);padding:12px 24px;border-radius:100px;font-weight:700;font-size:14px;transition:transform 0.3s cubic-bezier(0.34,1.4,0.64,1);z-index:999;white-space:nowrap;box-shadow:0 8px 32px rgba(0,0,0,0.4);}
+.toast.show{transform:translateX(-50%) translateY(0);}
 </style>
 </head>
 <body>
@@ -173,23 +168,39 @@ input::placeholder { color:var(--muted); }
 <div class="screen active" id="screen-home">
   <div class="logo">Rankd.</div>
   <div class="tagline">Classe tes amis. Découvre la vérité. 👀</div>
+
   <div class="home-stats">
     <div class="stat-chip"><div class="stat-num">200+</div><div class="stat-label">Questions</div></div>
     <div class="stat-chip"><div class="stat-num">4</div><div class="stat-label">Thèmes</div></div>
     <div class="stat-chip"><div class="stat-num">∞</div><div class="stat-label">Joueurs</div></div>
     <div class="stat-chip"><div class="stat-num">10</div><div class="stat-label">Tours</div></div>
   </div>
-  <div class="mb-16">
-    <label class="input-label">Ton pseudo</label>
-    <input type="text" id="home-name" placeholder="ex: Lucas" maxlength="16">
+
+  <!-- Session existante -->
+  <div class="session-banner" id="session-banner" style="display:none" onclick="useSession()">
+    <div id="session-avatar"></div>
+    <div class="session-banner-text">
+      <div class="session-banner-name" id="session-name"></div>
+      <div class="session-banner-sub">Continuer avec ce profil</div>
+    </div>
+    <div class="session-change" onclick="event.stopPropagation();resetSession()">Changer</div>
   </div>
-  <label class="input-label">Ta photo (optionnelle)</label>
-  <div class="photo-capture-wrap" onclick="triggerPhoto()" id="photo-wrap">
-    <img class="photo-preview" id="photo-preview" src="" alt="">
-    <div class="photo-placeholder" id="photo-placeholder">📸</div>
-    <div class="photo-hint" id="photo-hint"><strong>Prends une photo</strong> ou choisis depuis ta galerie</div>
+
+  <!-- Nouveau profil -->
+  <div id="new-profile-form">
+    <div class="mb-16">
+      <label class="input-label">Ton pseudo</label>
+      <input type="text" id="home-name" placeholder="ex: Lucas" maxlength="16">
+    </div>
+    <label class="input-label">Ta photo (optionnelle)</label>
+    <div class="photo-capture-wrap" onclick="triggerPhoto()" id="photo-wrap">
+      <img class="photo-preview" id="photo-preview" src="" alt="">
+      <div class="photo-placeholder" id="photo-placeholder">📸</div>
+      <div class="photo-hint" id="photo-hint"><strong>Prends une photo</strong> ou choisis depuis ta galerie</div>
+    </div>
+    <input type="file" accept="image/*" capture="user" id="photo-input" style="display:none" onchange="handlePhoto(event)">
   </div>
-  <input type="file" accept="image/*" capture="user" id="photo-input" style="display:none" onchange="handlePhoto(event)">
+
   <div class="btn-row mt-8">
     <button class="btn btn-primary" onclick="goCreate()">Créer une room</button>
     <button class="btn btn-secondary" onclick="goJoin()">Rejoindre</button>
@@ -205,16 +216,16 @@ input::placeholder { color:var(--muted); }
     <div class="section-title">Choisis un thème 🎨</div>
     <div class="themes-grid">
       <div class="theme-card" data-theme="potes" onclick="selectTheme(this)">
-        <div class="theme-emoji">🤝</div><div class="theme-name">Potes</div><div class="theme-count">50 questions</div>
+        <div class="theme-emoji">🤝</div><div class="theme-name">Potes</div><div class="theme-count" id="count-potes">… questions</div>
       </div>
       <div class="theme-card" data-theme="soiree" onclick="selectTheme(this)">
-        <div class="theme-emoji">🎉</div><div class="theme-name">Soirée</div><div class="theme-count">50 questions</div>
+        <div class="theme-emoji">🎉</div><div class="theme-name">Soirée</div><div class="theme-count" id="count-soiree">… questions</div>
       </div>
       <div class="theme-card" data-theme="amoureux" onclick="selectTheme(this)">
-        <div class="theme-emoji">💕</div><div class="theme-name">Amoureux</div><div class="theme-count">50 questions</div>
+        <div class="theme-emoji">💕</div><div class="theme-name">Amoureux</div><div class="theme-count" id="count-amoureux">… questions</div>
       </div>
       <div class="theme-card" data-theme="famille" onclick="selectTheme(this)">
-        <div class="theme-emoji">👨‍👩‍👧‍👦</div><div class="theme-name">Famille</div><div class="theme-count">50 questions</div>
+        <div class="theme-emoji">👨‍👩‍👧‍👦</div><div class="theme-name">Famille</div><div class="theme-count" id="count-famille">… questions</div>
       </div>
     </div>
     <button class="btn btn-primary" id="theme-btn" onclick="createRoom()" disabled>Créer la room →</button>
@@ -309,13 +320,16 @@ input::placeholder { color:var(--muted); }
     </div>
     <div class="section-title">Classement final</div>
     <div id="final-scores"></div>
-    <button class="btn btn-primary mt-20" onclick="playAgain()">Rejouer 🔄</button>
-    <button class="btn btn-secondary mt-8" onclick="showScreen('home')">Quitter</button>
+    <button class="btn btn-success mt-20" onclick="playAgain()">Rejouer 🔄</button>
+    <button class="btn btn-secondary mt-8" onclick="showScreen('home')">Menu principal</button>
   </div>
 </div>
 
 </div>
 <div class="toast" id="toast"></div>
+
+<!-- Questions externes -->
+<script src="questions.js"></script>
 
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
@@ -333,225 +347,78 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-const QUESTIONS = {
-  potes:[
-    {text:"Qui serait le dernier debout après une nuit blanche ?",emoji:"🌙"},
-    {text:"Qui pleurerait en premier dans un film Disney ?",emoji:"😭"},
-    {text:"Qui oublierait l'anniversaire de tout le monde ?",emoji:"🎂"},
-    {text:"Qui likerait accidentellement une vieille photo de son ex ?",emoji:"📱"},
-    {text:"Qui mangerait la pizza de quelqu'un d'autre sans demander ?",emoji:"🍕"},
-    {text:"Qui se perdrait dans un Ikea et ne retrouverait jamais la sortie ?",emoji:"🗺️"},
-    {text:"Qui serait le dernier à comprendre une blague ?",emoji:"😶"},
-    {text:"Qui ferait la queue 3h pour une édition limitée ?",emoji:"👟"},
-    {text:"Qui deviendrait influenceur en premier ?",emoji:"🎥"},
-    {text:"Qui parlerait à un inconnu dans le métro ?",emoji:"🚇"},
-    {text:"Qui serait le meilleur candidat dans Secret Story ?",emoji:"🏠"},
-    {text:"Qui pleurerait si on lui enlève son téléphone 24h ?",emoji:"📵"},
-    {text:"Qui se ferait arnaquer par une pub Instagram ?",emoji:"🎣"},
-    {text:"Qui survivrait le plus longtemps dans une apocalypse zombie ?",emoji:"🧟"},
-    {text:"Qui deviendrait célèbre pour une raison absurde ?",emoji:"⭐"},
-    {text:"Qui mangerait de la nourriture tombée par terre ?",emoji:"🍟"},
-    {text:"Qui serait le dernier à admettre qu'il a tort ?",emoji:"🤬"},
-    {text:"Qui enverrait le vocal le plus long ?",emoji:"🎙️"},
-    {text:"Qui deviendrait accro à un jeu mobile en une semaine ?",emoji:"🎮"},
-    {text:"Qui serait le plus riche dans 10 ans ?",emoji:"💰"},
-    {text:"Qui adopterait 5 chats d'un coup ?",emoji:"🐱"},
-    {text:"Qui gagnerait un concours de mauvaises blagues ?",emoji:"🥲"},
-    {text:"Qui prend le plus de photos de nourriture avant de manger ?",emoji:"📸"},
-    {text:"Qui serait le plus courageux pour parler à son crush ?",emoji:"💘"},
-    {text:"Qui craquerait en premier lors d'un régime ?",emoji:"🍰"},
-    {text:"Qui oublierait de recharger son téléphone avant un voyage ?",emoji:"🔋"},
-    {text:"Qui finirait au karaoké à 4h du matin ?",emoji:"🎤"},
-    {text:"Qui se lèverait le plus tard le week-end ?",emoji:"😴"},
-    {text:"Qui dépenserait tout son compte en une nuit de shopping ?",emoji:"💸"},
-    {text:"Qui résisterait le moins à un pari stupide ?",emoji:"🎲"},
-    {text:"Qui serait le meilleur avocat si sa vie en dépendait ?",emoji:"⚖️"},
-    {text:"Qui survivrait le moins longtemps sans fast food ?",emoji:"🍔"},
-    {text:"Qui croirait le plus facilement à un complot ?",emoji:"🌙"},
-    {text:"Qui se ferait le plus facilement manipuler ?",emoji:"🎭"},
-    {text:"Qui deviendrait le meilleur chef cuisinier ?",emoji:"👨‍🍳"},
-    {text:"Qui disparaîtrait le plus souvent pendant une fête ?",emoji:"👻"},
-    {text:"Qui enverrait un message à la mauvaise personne ?",emoji:"😬"},
-    {text:"Qui serait le plus nostalgique du lycée dans 10 ans ?",emoji:"🏫"},
-    {text:"Qui appellerait sa mère en premier en cas de problème ?",emoji:"📞"},
-    {text:"Qui ferait le meilleur discours improvisé ?",emoji:"💍"},
-    {text:"Qui se perdrait sans GPS ?",emoji:"🧭"},
-    {text:"Qui raterait son réveil le plus souvent ?",emoji:"⏰"},
-    {text:"Qui proposerait l'idée la plus folle ?",emoji:"💡"},
-    {text:"Qui arriverait en retard à son propre mariage ?",emoji:"💒"},
-    {text:"Qui serait le meilleur DJ d'une soirée ?",emoji:"🎧"},
-    {text:"Qui deviendrait le plus célèbre du groupe ?",emoji:"🌟"},
-    {text:"Qui perdrait ses clés tous les jours ?",emoji:"🔑"},
-    {text:"Qui apprendrait le plus vite une nouvelle langue ?",emoji:"🗣️"},
-    {text:"Qui aurait le plus de tatouages dans 5 ans ?",emoji:"💉"},
-    {text:"Qui partirait vivre à l'étranger en premier ?",emoji:"✈️"},
-  ],
-  soiree:[
-    {text:"Qui serait le premier sur la piste de danse ?",emoji:"🕺"},
-    {text:"Qui commanderait à manger à 3h du matin ?",emoji:"🍕"},
-    {text:"Qui tomberait endormi en premier ?",emoji:"😴"},
-    {text:"Qui ferait le speech le plus embarrassant ?",emoji:"🎤"},
-    {text:"Qui serait le dernier à rentrer chez lui ?",emoji:"🌅"},
-    {text:"Qui danserait seul dans un coin sans s'en rendre compte ?",emoji:"💃"},
-    {text:"Qui perdrait ses affaires en premier ?",emoji:"👜"},
-    {text:"Qui aurait la pire gueule de bois le lendemain ?",emoji:"🤢"},
-    {text:"Qui se ferait des amis avec tout le monde en 5 minutes ?",emoji:"🤗"},
-    {text:"Qui appellerait son ex pendant la soirée ?",emoji:"📞"},
-    {text:"Qui prendrait le plus de selfies de la nuit ?",emoji:"🤳"},
-    {text:"Qui serait le dernier à quitter la piste ?",emoji:"🎉"},
-    {text:"Qui ferait la danse la plus mémorable ?",emoji:"🎵"},
-    {text:"Qui essaierait de devenir ami avec le videur ?",emoji:"🚪"},
-    {text:"Qui organiserait l'after party spontanément ?",emoji:"🏠"},
-    {text:"Qui chanterait le plus fort sur une chanson qu'il connaît pas ?",emoji:"🎶"},
-    {text:"Qui porterait la tenue la plus remarquée ?",emoji:"👗"},
-    {text:"Qui monterait sur une table ?",emoji:"🪑"},
-    {text:"Qui raterait son taxi et dormirait sur place ?",emoji:"🚕"},
-    {text:"Qui ferait la meilleure photo souvenir ?",emoji:"📷"},
-    {text:"Qui chanterait a capella sans qu'on lui demande ?",emoji:"🎤"},
-    {text:"Qui parlerait le plus fort de tout le monde ?",emoji:"📢"},
-    {text:"Qui commanderait le cocktail le plus bizarre ?",emoji:"🍹"},
-    {text:"Qui resterait le plus sobre de la nuit ?",emoji:"💧"},
-    {text:"Qui posterait le plus de stories ?",emoji:"📱"},
-    {text:"Qui proposerait de continuer ailleurs à minuit ?",emoji:"🌃"},
-    {text:"Qui proposerait un jeu en premier ?",emoji:"🎮"},
-    {text:"Qui ferait la meilleure imitation de quelqu'un ?",emoji:"🎭"},
-    {text:"Qui aurait la meilleure playlist ?",emoji:"🎵"},
-    {text:"Qui pleurerait de joie pendant la soirée ?",emoji:"😂"},
-    {text:"Qui ramènerait des inconnus dans le groupe ?",emoji:"👥"},
-    {text:"Qui perdrait le fil de la conversation le plus vite ?",emoji:"💭"},
-    {text:"Qui ferait une entrée remarquée ?",emoji:"🚀"},
-    {text:"Qui ne retrouverait pas son téléphone de la nuit ?",emoji:"📵"},
-    {text:"Qui proposerait un karaoké en premier ?",emoji:"🎤"},
-    {text:"Qui dépenserait le plus en une nuit ?",emoji:"💸"},
-    {text:"Qui finirait dans un after inattendu ?",emoji:"🎊"},
-    {text:"Qui ferait rire tout le monde avec ses danses ?",emoji:"😂"},
-    {text:"Qui serait le roi ou la reine de la soirée ?",emoji:"👑"},
-    {text:"Qui proposerait les meilleures idées de jeux ?",emoji:"🎲"},
-    {text:"Qui s'endormirait sur le canapé en premier ?",emoji:"🛋️"},
-    {text:"Qui rentrerait avec le plus de nouvelles connaissances ?",emoji:"📲"},
-    {text:"Qui perdrait ses chaussures en premier ?",emoji:"👠"},
-    {text:"Qui commanderait pour tout le monde sans demander ?",emoji:"📋"},
-    {text:"Qui serait le dernier à rentrer le lendemain matin ?",emoji:"☀️"},
-    {text:"Qui organiserait la prochaine soirée sur le chemin du retour ?",emoji:"📅"},
-    {text:"Qui danserait le plus mal mais avec le plus de confiance ?",emoji:"🕺"},
-    {text:"Qui ferait semblant d'être occupé pour éviter quelqu'un ?",emoji:"🙈"},
-    {text:"Qui serait le premier à s'endormir dans le taxi ?",emoji:"🚗"},
-    {text:"Qui dépenserait le plus en Uber sur la nuit ?",emoji:"🚖"},
-  ],
-  amoureux:[
-    {text:"Qui enverrait le premier message après un silence gêné ?",emoji:"💬"},
-    {text:"Qui tomberait amoureux le plus vite ?",emoji:"❤️"},
-    {text:"Qui serait le plus jaloux dans une relation ?",emoji:"😤"},
-    {text:"Qui serait le plus romantique du groupe ?",emoji:"🌹"},
-    {text:"Qui préparerait la meilleure surprise pour son partenaire ?",emoji:"🎁"},
-    {text:"Qui lirait tous les messages de son crush en détail ?",emoji:"🔍"},
-    {text:"Qui attendrait le plus longtemps avant de déclarer ses sentiments ?",emoji:"⏳"},
-    {text:"Qui ferait un geste romantique en public ?",emoji:"💏"},
-    {text:"Qui regarderait des films romantiques en cachette ?",emoji:"🎬"},
-    {text:"Qui ferait la meilleure première impression ?",emoji:"✨"},
-    {text:"Qui serait le plus difficile à reconquérir après une dispute ?",emoji:"🌧️"},
-    {text:"Qui céderait le premier dans une dispute de couple ?",emoji:"🏳️"},
-    {text:"Qui ferait le plus de sacrifices pour l'amour ?",emoji:"💝"},
-    {text:"Qui aurait le coup de foudre le plus facilement ?",emoji:"⚡"},
-    {text:"Qui planterait un rendez-vous pour regarder Netflix ?",emoji:"🛋️"},
-    {text:"Qui serait le plus attentionné dans une relation ?",emoji:"🫶"},
-    {text:"Qui dirait je t'aime en premier ?",emoji:"💕"},
-    {text:"Qui ferait le plus long trajet pour voir quelqu'un ?",emoji:"🚂"},
-    {text:"Qui serait le plus difficile à impressionner ?",emoji:"😏"},
-    {text:"Qui se souviendrait de tous les anniversaires de couple ?",emoji:"📅"},
-    {text:"Qui garderait un secret amoureux le mieux ?",emoji:"🤫"},
-    {text:"Qui enverrait des fleurs sans raison particulière ?",emoji:"💐"},
-    {text:"Qui relirait les vieilles conversations avec son crush ?",emoji:"💭"},
-    {text:"Qui ferait le dîner romantique parfait ?",emoji:"🍷"},
-    {text:"Qui écrirait une lettre à la main ?",emoji:"✍️"},
-    {text:"Qui serait le plus difficile à lire quand il a des sentiments ?",emoji:"🎭"},
-    {text:"Qui ferait le meilleur câlin du groupe ?",emoji:"🤗"},
-    {text:"Qui stalkerait son crush sur les réseaux ?",emoji:"👀"},
-    {text:"Qui donnerait toujours la priorité à l'amour sur l'amitié ?",emoji:"💔"},
-    {text:"Qui tomberait amoureux d'un inconnu en voyage ?",emoji:"🌍"},
-    {text:"Qui serait le plus loyal dans une longue relation ?",emoji:"💍"},
-    {text:"Qui ferait le plus beau discours d'anniversaire ?",emoji:"🎂"},
-    {text:"Qui consolerait le mieux son partenaire ?",emoji:"🤍"},
-    {text:"Qui ferait une surprise à minuit ?",emoji:"🎆"},
-    {text:"Qui remarquerait un changement chez son partenaire en premier ?",emoji:"🔎"},
-    {text:"Qui garderait toutes les photos de couple ?",emoji:"🖼️"},
-    {text:"Qui ferait le geste le plus inattendu pour plaire ?",emoji:"🎯"},
-    {text:"Qui présenterait son partenaire à la famille en premier ?",emoji:"👨‍👩‍👦"},
-    {text:"Qui tomberait amoureux d'un ami ?",emoji:"🫂"},
-    {text:"Qui serait le plus attentif aux détails chez son partenaire ?",emoji:"🌸"},
-    {text:"Qui organiserait le voyage romantique parfait ?",emoji:"🏖️"},
-    {text:"Qui resterait avec quelqu'un qui ne le mérite pas ?",emoji:"😔"},
-    {text:"Qui ferait rire son partenaire dans les moments difficiles ?",emoji:"😄"},
-    {text:"Qui ferait la demande en mariage la plus créative ?",emoji:"💍"},
-    {text:"Qui serait le plus dépendant affectivement ?",emoji:"🔗"},
-    {text:"Qui s'excuserait en premier après une dispute ?",emoji:"🙏"},
-    {text:"Qui vivrait la plus belle histoire d'amour du groupe ?",emoji:"📖"},
-    {text:"Qui serait le plus susceptible d'avoir le cœur brisé ?",emoji:"💔"},
-    {text:"Qui enverrait le message le plus long à son crush ?",emoji:"📝"},
-    {text:"Qui ferait la playlist parfaite pour une soirée en amoureux ?",emoji:"🎵"},
-  ],
-  famille:[
-    {text:"Qui serait le chouchou des grands-parents ?",emoji:"👴"},
-    {text:"Qui appellerait sa mère tous les jours ?",emoji:"📞"},
-    {text:"Qui arriverait en retard à tous les repas de famille ?",emoji:"🍽️"},
-    {text:"Qui donnerait les meilleurs conseils dans la famille ?",emoji:"🧠"},
-    {text:"Qui se marierait en premier ?",emoji:"👰"},
-    {text:"Qui ferait pleurer tout le monde à Noël avec son discours ?",emoji:"🎄"},
-    {text:"Qui ramènerait un inconnu au repas de famille ?",emoji:"🚶"},
-    {text:"Qui défendrait toujours les autres même quand ils ont tort ?",emoji:"🛡️"},
-    {text:"Qui serait le plus nostalgique des vacances d'enfance ?",emoji:"🏖️"},
-    {text:"Qui ressemblerait le plus à ses parents en vieillissant ?",emoji:"👨‍👩‍👦"},
-    {text:"Qui serait le meilleur pour garder les enfants ?",emoji:"👶"},
-    {text:"Qui cuisinerait le meilleur repas de Noël ?",emoji:"🎅"},
-    {text:"Qui aurait des enfants en premier ?",emoji:"🍼"},
-    {text:"Qui garderait toutes les traditions familiales ?",emoji:"🏠"},
-    {text:"Qui déménagerait le plus loin de sa famille ?",emoji:"✈️"},
-    {text:"Qui raconterait tout à ses parents ?",emoji:"🗣️"},
-    {text:"Qui offrirait les meilleurs cadeaux à Noël ?",emoji:"🎁"},
-    {text:"Qui jouerait le médiateur lors des disputes familiales ?",emoji:"🤝"},
-    {text:"Qui ferait honte à toute la famille au karaoké du réveillon ?",emoji:"🎤"},
-    {text:"Qui pleurerait en regardant les vieilles photos de famille ?",emoji:"📷"},
-    {text:"Qui serait le dernier à quitter la maison familiale ?",emoji:"🏡"},
-    {text:"Qui deviendrait comme son parent préféré ?",emoji:"💛"},
-    {text:"Qui organiserait les meilleures retrouvailles familiales ?",emoji:"🎊"},
-    {text:"Qui garderait le plus de secrets de famille ?",emoji:"🤫"},
-    {text:"Qui vivrait dans la même ville que ses parents ?",emoji:"📍"},
-    {text:"Qui aiderait le plus lors d'un déménagement familial ?",emoji:"📦"},
-    {text:"Qui ferait la plus longue route pour les fêtes ?",emoji:"🚗"},
-    {text:"Qui oublierait d'appeler pour un anniversaire ?",emoji:"🎂"},
-    {text:"Qui serait le plus proche de ses cousins ?",emoji:"👫"},
-    {text:"Qui hériterait des meilleures recettes de famille ?",emoji:"📖"},
-    {text:"Qui prendrait soin de ses parents quand ils seront vieux ?",emoji:"❤️"},
-    {text:"Qui ferait le meilleur barbecue familial ?",emoji:"🔥"},
-    {text:"Qui serait le pilier de la famille ?",emoji:"🏛️"},
-    {text:"Qui réconcilierait les membres en froid ?",emoji:"🕊️"},
-    {text:"Qui raconterait les meilleures anecdotes de famille ?",emoji:"📚"},
-    {text:"Qui ferait le plus rire lors des repas de famille ?",emoji:"😂"},
-    {text:"Qui transmettrait le mieux les valeurs familiales ?",emoji:"🌱"},
-    {text:"Qui arriverait en premier en cas de problème familial ?",emoji:"🏃"},
-    {text:"Qui garderait le contact avec toute la famille ?",emoji:"🌐"},
-    {text:"Qui serait le plus attaché aux souvenirs de famille ?",emoji:"🏺"},
-    {text:"Qui ferait le meilleur discours lors d'une cérémonie familiale ?",emoji:"🎙️"},
-    {text:"Qui serait le dernier au courant des nouvelles familiales ?",emoji:"📰"},
-    {text:"Qui créerait le groupe WhatsApp familial ?",emoji:"💬"},
-    {text:"Qui serait le meilleur parrain ou marraine ?",emoji:"✨"},
-    {text:"Qui serait le plus fier de ses racines familiales ?",emoji:"🌿"},
-    {text:"Qui viderait le frigo de ses parents en rentrant ?",emoji:"🍽️"},
-    {text:"Qui ferait fondre les grands-parents avec un seul sourire ?",emoji:"😊"},
-    {text:"Qui pleurerait le plus à un mariage de famille ?",emoji:"😭"},
-    {text:"Qui organiserait la meilleure fête d'anniversaire pour un parent ?",emoji:"🎉"},
-    {text:"Qui serait le premier à appeler tout le monde pour des nouvelles ?",emoji:"📲"},
-  ],
-};
-
+const QUESTIONS = window.RANKD_QUESTIONS;
 const THEME_LABELS = { potes:"🤝 Potes", soiree:"🎉 Soirée", amoureux:"💕 Amoureux", famille:"👨‍👩‍👧‍👦 Famille" };
 const EMOJIS = ["🐺","🦊","🐻","🐯","🦁","🐸","🐼","🦋","🐲","👽","🤖","🦄","🐧","🦅","🐙","🦈","🐬"];
 
+// ── ANTI-RÉPÉTITION : stockage local des questions déjà jouées ──
+function getPlayedKeys(theme) {
+  try { return JSON.parse(localStorage.getItem(`rankd_played_${theme}`) || '[]'); } catch { return []; }
+}
+function savePlayedKeys(theme, keys) {
+  try { localStorage.setItem(`rankd_played_${theme}`, JSON.stringify(keys)); } catch {}
+}
+function pickQuestions(theme, count) {
+  const all = QUESTIONS[theme] || [];
+  let played = getPlayedKeys(theme);
+  // Si plus assez de questions non jouées, on remet à zéro
+  const available = all.filter((_, i) => !played.includes(i));
+  if (available.length < count) {
+    played = []; savePlayedKeys(theme, []);
+  }
+  const fresh = all.map((q, i) => ({ ...q, _i: i })).filter(q => !played.includes(q._i));
+  const shuffled = fresh.sort(() => Math.random() - 0.5).slice(0, count);
+  const newPlayed = [...played, ...shuffled.map(q => q._i)];
+  savePlayedKeys(theme, newPlayed);
+  return shuffled.map(({ _i, ...q }) => q);
+}
+
+// ── SESSION PERSISTANTE ──
+let session = { name: null, photo: null, emoji: null };
+function loadSession() {
+  try {
+    const s = JSON.parse(localStorage.getItem('rankd_session') || 'null');
+    if (s && s.name) { session = s; return true; }
+  } catch {}
+  return false;
+}
+function saveSession() {
+  try { localStorage.setItem('rankd_session', JSON.stringify(session)); } catch {}
+}
+function showSessionBanner() {
+  if (!session.name) return;
+  document.getElementById('session-banner').style.display = 'flex';
+  document.getElementById('new-profile-form').style.display = 'none';
+  const av = session.photo
+    ? `<img src="${session.photo}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--accent);">`
+    : `<div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,rgba(124,111,255,0.3),rgba(255,95,126,0.2));display:flex;align-items:center;justify-content:center;font-size:22px;">${session.emoji}</div>`;
+  document.getElementById('session-avatar').innerHTML = av;
+  document.getElementById('session-name').textContent = session.name;
+}
+window.useSession = () => { /* session déjà chargée */ };
+window.resetSession = () => {
+  session = { name: null, photo: null, emoji: null };
+  document.getElementById('session-banner').style.display = 'none';
+  document.getElementById('new-profile-form').style.display = 'block';
+  document.getElementById('home-name').value = '';
+  document.getElementById('photo-preview').style.display = 'none';
+  document.getElementById('photo-placeholder').style.display = 'block';
+  document.getElementById('photo-hint').innerHTML = '<strong>Prends une photo</strong> ou galerie';
+};
+
+// Afficher le nb de questions par thème
+function updateThemeCounts() {
+  Object.keys(QUESTIONS).forEach(theme => {
+    const el = document.getElementById(`count-${theme}`);
+    if (el) el.textContent = `${QUESTIONS[theme].length} questions`;
+  });
+}
+
+// STATE
 let state = {
-  roomCode:null, playerId:null, playerName:null, playerPhoto:null,
-  isHost:false, players:{}, currentQuestion:0, totalQuestions:10,
-  selectedTheme:null, myRanking:[], scores:{}, submitted:false,
-  timerInterval:null, unsubscribers:[],
+  roomCode:null, playerId:null, isHost:false, players:{},
+  currentQuestion:0, totalQuestions:10, selectedTheme:null,
+  myRanking:[], scores:{}, submitted:false, timerInterval:null, unsubscribers:[],
 };
 
 // PHOTO
@@ -559,7 +426,7 @@ window.triggerPhoto = () => document.getElementById('photo-input').click();
 window.handlePhoto = (e) => {
   const file = e.target.files[0]; if (!file) return;
   const reader = new FileReader();
-  reader.onload = (ev) => {
+  reader.onload = ev => {
     const img = new Image();
     img.onload = () => {
       const canvas = document.createElement('canvas');
@@ -567,9 +434,9 @@ window.handlePhoto = (e) => {
       const ctx = canvas.getContext('2d');
       const s = Math.min(img.width, img.height);
       ctx.drawImage(img, (img.width-s)/2, (img.height-s)/2, s, s, 0, 0, 80, 80);
-      state.playerPhoto = canvas.toDataURL('image/jpeg', 0.7);
+      session.photo = canvas.toDataURL('image/jpeg', 0.7);
       const preview = document.getElementById('photo-preview');
-      preview.src = state.playerPhoto; preview.style.display = 'block';
+      preview.src = session.photo; preview.style.display = 'block';
       document.getElementById('photo-placeholder').style.display = 'none';
       document.getElementById('photo-hint').textContent = '✓ Photo prête !';
     };
@@ -579,7 +446,7 @@ window.handlePhoto = (e) => {
 };
 
 // UTILS
-window.showScreen = (id) => {
+window.showScreen = id => {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + id).classList.add('active');
   window.scrollTo(0,0);
@@ -591,15 +458,26 @@ function toast(msg) {
 }
 function genCode() { return Math.floor(1000 + Math.random()*9000).toString(); }
 function genId() { return Math.random().toString(36).substr(2,9); }
-function getName() { const n = document.getElementById('home-name').value.trim(); if(!n){toast('Entre ton pseudo !');return null;} return n; }
 function randEmoji() { return EMOJIS[Math.floor(Math.random()*EMOJIS.length)]; }
 function av(p, size=40) {
   if (p.photo) return `<img src="${p.photo}" style="width:${size}px;height:${size}px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,0.15);flex-shrink:0;">`;
   return `<div style="width:${size}px;height:${size}px;border-radius:50%;background:linear-gradient(135deg,rgba(124,111,255,0.2),rgba(255,95,126,0.2));display:flex;align-items:center;justify-content:center;font-size:${Math.round(size*0.5)}px;border:2px solid rgba(255,255,255,0.1);flex-shrink:0;">${p.emoji}</div>`;
 }
 
+function getProfile() {
+  // Si session banner visible, utiliser session
+  if (session.name) return true;
+  const n = document.getElementById('home-name').value.trim();
+  if (!n) { toast('Entre ton pseudo !'); return false; }
+  session.name = n;
+  session.emoji = randEmoji();
+  // photo déjà dans session.photo si prise
+  saveSession();
+  return true;
+}
+
 // THEME
-window.selectTheme = (el) => {
+window.selectTheme = el => {
   document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
   state.selectedTheme = el.dataset.theme;
@@ -607,14 +485,15 @@ window.selectTheme = (el) => {
 };
 
 // CREATE
-window.goCreate = () => { const n=getName(); if(!n)return; state.playerName=n; showScreen('theme'); };
+window.goCreate = () => { if (!getProfile()) return; showScreen('theme'); };
 window.createRoom = async () => {
   if (!state.selectedTheme) { toast('Choisis un thème !'); return; }
   state.playerId = genId(); state.isHost = true; state.roomCode = genCode(); state.scores = {};
+  if (!session.emoji) session.emoji = randEmoji();
   await set(ref(db, `rooms/${state.roomCode}`), {
     host: state.playerId, status:'lobby', theme: state.selectedTheme,
     currentQuestion:0, totalQuestions:state.totalQuestions,
-    players:{ [state.playerId]:{ name:state.playerName, emoji:randEmoji(), photo:state.playerPhoto||null, isHost:true, score:0, submitted:false } },
+    players:{ [state.playerId]:{ name:session.name, emoji:session.emoji, photo:session.photo||null, isHost:true, score:0, submitted:false } },
     votes:{},
   });
   document.getElementById('lobby-code').textContent = state.roomCode;
@@ -624,18 +503,19 @@ window.createRoom = async () => {
 };
 
 // JOIN
-window.goJoin = () => { const n=getName(); if(!n)return; state.playerName=n; showScreen('join'); };
+window.goJoin = () => { if (!getProfile()) return; showScreen('join'); };
 window.joinRoom = async () => {
   const code = document.getElementById('join-code').value.trim();
-  if (code.length!==4) { toast('Code à 4 chiffres !'); return; }
+  if (code.length !== 4) { toast('Code à 4 chiffres !'); return; }
   const snap = await get(ref(db, `rooms/${code}`));
   if (!snap.exists()) { toast('Room introuvable 😕'); return; }
   const room = snap.val();
-  if (room.status!=='lobby') { toast('Partie déjà en cours !'); return; }
-  state.roomCode=code; state.playerId=genId(); state.isHost=false;
-  state.totalQuestions=room.totalQuestions||10; state.selectedTheme=room.theme;
+  if (room.status !== 'lobby') { toast('Partie déjà en cours !'); return; }
+  state.roomCode = code; state.playerId = genId(); state.isHost = false;
+  state.totalQuestions = room.totalQuestions||10; state.selectedTheme = room.theme;
+  if (!session.emoji) session.emoji = randEmoji();
   await update(ref(db, `rooms/${code}/players`), {
-    [state.playerId]:{ name:state.playerName, emoji:randEmoji(), photo:state.playerPhoto||null, isHost:false, score:0, submitted:false }
+    [state.playerId]:{ name:session.name, emoji:session.emoji, photo:session.photo||null, isHost:false, score:0, submitted:false }
   });
   document.getElementById('lobby-code').textContent = code;
   document.getElementById('lobby-host-actions').style.display = 'none';
@@ -652,54 +532,54 @@ function listenLobby() {
     const count = Object.keys(state.players).length;
     const grid = document.getElementById('lobby-players');
     if (grid) {
-      grid.innerHTML='';
+      grid.innerHTML = '';
       Object.entries(state.players).forEach(([id,p]) => {
-        const chip=document.createElement('div'); chip.className='player-chip';
-        chip.innerHTML=`${av(p,40)}<div class="player-name">${p.name}</div>${p.isHost?'<span class="badge-host">Hôte</span>':''}`;
+        const chip = document.createElement('div'); chip.className = 'player-chip';
+        chip.innerHTML = `${av(p,40)}<div class="player-name">${p.name}</div>${p.isHost?'<span class="badge-host">Hôte</span>':''}`;
         grid.appendChild(chip);
       });
     }
-    document.getElementById('lobby-count').textContent=`(${count})`;
+    document.getElementById('lobby-count').textContent = `(${count})`;
     if (state.isHost) {
       const btn=document.getElementById('start-btn'), hint=document.getElementById('start-hint');
-      if(btn) btn.disabled=count<2;
-      if(hint) hint.textContent=count<2?'Il faut au moins 2 joueurs':`${count} joueurs prêts — Lance !`;
+      if(btn) btn.disabled = count < 2;
+      if(hint) hint.textContent = count < 2 ? 'Il faut au moins 2 joueurs' : `${count} joueurs prêts — Lance !`;
     }
-    if (room.status==='playing') { state.currentQuestion=room.currentQuestion||0; state.selectedTheme=room.theme; loadQuestion(); }
+    if (room.status === 'playing') { state.currentQuestion = room.currentQuestion||0; state.selectedTheme = room.theme; loadQuestion(); }
   });
   state.unsubscribers.push(unsub);
 }
 
 window.startGame = async () => {
-  const pool = [...QUESTIONS[state.selectedTheme]].sort(()=>Math.random()-0.5).slice(0,state.totalQuestions);
-  await update(ref(db,`rooms/${state.roomCode}`), { status:'playing', currentQuestion:0, questions:pool, votes:{} });
+  const pool = pickQuestions(state.selectedTheme, state.totalQuestions);
+  await update(ref(db, `rooms/${state.roomCode}`), { status:'playing', currentQuestion:0, questions:pool, votes:{} });
 };
 
 // LOAD QUESTION
 async function loadQuestion() {
   state.unsubscribers.forEach(u=>u()); state.unsubscribers=[];
-  clearInterval(state.timerInterval); state.submitted=false;
-  const snap=await get(ref(db,`rooms/${state.roomCode}`));
+  clearInterval(state.timerInterval); state.submitted = false;
+  const snap = await get(ref(db, `rooms/${state.roomCode}`));
   if (!snap.exists()) return;
-  const room=snap.val(), qIndex=room.currentQuestion, question=room.questions[qIndex];
-  state.currentQuestion=qIndex; state.players=room.players||{};
-  state.myRanking=Object.entries(state.players).map(([id,p])=>({id,name:p.name,emoji:p.emoji,photo:p.photo||null})).sort(()=>Math.random()-0.5);
+  const room = snap.val(), qIndex = room.currentQuestion, question = room.questions[qIndex];
+  state.currentQuestion = qIndex; state.players = room.players||{};
+  state.myRanking = Object.entries(state.players).map(([id,p])=>({id,name:p.name,emoji:p.emoji,photo:p.photo||null})).sort(()=>Math.random()-0.5);
   showScreen('question');
-  document.getElementById('q-counter').textContent=`Tour ${qIndex+1} / ${state.totalQuestions}`;
-  document.getElementById('q-theme-label').textContent=THEME_LABELS[state.selectedTheme]||'';
-  document.getElementById('q-emoji').textContent=question.emoji;
-  document.getElementById('q-text').textContent=question.text;
-  document.getElementById('q-progress').style.width=`${(qIndex/state.totalQuestions)*100}%`;
-  document.getElementById('submit-btn').disabled=false;
+  document.getElementById('q-counter').textContent = `Tour ${qIndex+1} / ${state.totalQuestions}`;
+  document.getElementById('q-theme-label').textContent = THEME_LABELS[state.selectedTheme]||'';
+  document.getElementById('q-emoji').textContent = question.emoji;
+  document.getElementById('q-text').textContent = question.text;
+  document.getElementById('q-progress').style.width = `${(qIndex/state.totalQuestions)*100}%`;
+  document.getElementById('submit-btn').disabled = false;
   renderRankList(); startTimer(30); listenVotes();
 }
 
 function renderRankList() {
-  const list=document.getElementById('rank-list'); list.innerHTML='';
-  state.myRanking.forEach((player,i) => {
-    const item=document.createElement('div');
-    item.className='rank-item'; item.draggable=true; item.dataset.index=i;
-    item.innerHTML=`<div class="rank-number">${i+1}</div>${av(player,36)}<div class="rank-name">${player.name}</div><div class="drag-handle">⠿⠿</div>`;
+  const list = document.getElementById('rank-list'); list.innerHTML = '';
+  state.myRanking.forEach((player, i) => {
+    const item = document.createElement('div');
+    item.className = 'rank-item'; item.draggable = true; item.dataset.index = i;
+    item.innerHTML = `<div class="rank-number">${i+1}</div>${av(player,36)}<div class="rank-name">${player.name}</div><div class="drag-handle">⠿⠿</div>`;
     item.addEventListener('touchstart',()=>item.classList.add('dragging'),{passive:true});
     item.addEventListener('touchmove',e=>{
       e.preventDefault();
@@ -835,11 +715,19 @@ async function showFinal() {
   });
 }
 
+// REJOUER — garde le profil, recrée juste la room
 window.playAgain = async () => {
-  if(state.isHost)await remove(ref(db,`rooms/${state.roomCode}`));
-  state={roomCode:null,playerId:null,playerName:null,playerPhoto:null,isHost:false,players:{},currentQuestion:0,totalQuestions:10,selectedTheme:null,myRanking:[],scores:{},submitted:false,timerInterval:null,unsubscribers:[]};
+  if(state.isHost) await remove(ref(db,`rooms/${state.roomCode}`));
+  state={roomCode:null,playerId:null,isHost:false,players:{},currentQuestion:0,totalQuestions:10,selectedTheme:null,myRanking:[],scores:{},submitted:false,timerInterval:null,unsubscribers:[]};
+  // On garde session (nom + photo)
+  showSessionBanner();
   showScreen('home');
 };
+
+// INIT
+loadSession();
+showSessionBanner();
+updateThemeCounts();
 </script>
 </body>
 </html>
